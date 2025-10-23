@@ -1,233 +1,245 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>株式会社eSP｜eSPアカデミー</title>
-  <meta name="description" content="株式会社eSP／eSPアカデミー公式サイト。事業内容・企業情報・採用情報・お問い合わせ。" />
-  <meta name="theme-color" content="#00bbff" />
-  <link rel="icon" href="assets/eSP3.png">
+  <title>株式会社eSP</title>
   <style>
-    :root { --bg:#fff; --card:#f7f9fb; --accent:#00bbff; --text:#111; --muted:#555; --shadow:0 8px 20px rgba(0,0,0,.08); --radius:16px; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif; background:var(--bg); color:var(--text); }
+    :root{
+      --header-h:64px;
+      --accent:#00bbff;
+      --card:#f7f9fb;
+      --shadow:0 4px 12px rgba(0,0,0,.08);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;font-family:"Segoe UI","Noto Sans JP",sans-serif;color:#111;line-height:1.6}
 
-    /* Header */
-    header { position:sticky; top:0; z-index:20; background:#fff; border-bottom:1px solid #eee; box-shadow:0 2px 6px rgba(0,0,0,.05); }
-    .container { max-width:1400px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; }
-    .brand { display:flex; align-items:center; gap:12px; font-weight:700; font-size:18px; padding:12px 0; white-space:nowrap; }
-    .brand img { height:36px; }
-    .menu-toggle { display:none; border:1px solid #e5e8eb; background:#fff; padding:8px 10px; border-radius:10px; font-size:16px; }
-    .nav { display:flex; align-items:center; gap:28px; margin-left:80px; }
-    .nav a { color:var(--text); text-decoration:none; font-weight:600; font-size:18px; }
-    .nav a:hover { color:var(--accent); }
-
-    /* Hero */
-    .hero { padding:120px 0 100px; text-align:center; background:
-      linear-gradient(135deg, rgba(0,187,255,.35), rgba(0,80,130,.6)),
-      url('assets/3230406_m.jpg') center/cover no-repeat; color:#fff; position:relative; }
-    .hero::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,.35); }
-    .hero .container { position:relative; z-index:1; display:block; }
-    .hero h1 { font-size:clamp(28px,5vw,60px); margin-bottom:20px; line-height:1.4; letter-spacing:.02em; }
-    .hero p  { color:#e9eef2; max-width:900px; margin:0 auto; font-size:clamp(15.5px,1.4vw,20px); line-height:1.85; }
-
-    /* Sections */
-    .section { padding:70px 0; }
-    .card { background:var(--card); border-radius:var(--radius); padding:28px; box-shadow:var(--shadow); }
-    .card h2 { margin-top:0; color:var(--accent); font-size:24px; }
-    .list { padding-left:20px; }
-
-    /* Biz cards */
-    .subrow { display:flex; gap:16px; margin-top:20px; overflow-x:auto; padding:0 2px 10px; scroll-snap-type:x mandatory; }
-    .subrow::-webkit-scrollbar { height:8px; }
-    .subrow::-webkit-scrollbar-thumb { background:#e1e7ec; border-radius:8px; }
-    .subcard { scroll-snap-align:start; flex:0 0 85%; background:#fff; border:1px solid #ddd; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); text-align:center; }
-    .subcard h3 { margin:10px 0 6px; color:var(--accent); font-size:20px; }
-    .subcard img { width:100%; aspect-ratio:16/9; height:auto; object-fit:cover; border-radius:var(--radius); }
-    .subcard p { margin-top:8px; }
-
-    /* Company: photo + map side-by-side */
-    .company-grid { display:flex; flex-direction:column; gap:20px; margin-top:16px; }
-    .company-photo img { width:100%; border-radius:16px; display:block; }
-    .company-map iframe { width:100%; height:300px; border:0; border-radius:16px; }
-
-    /* Footer */
-    footer { padding:28px 0; background:#fafafa; border-top:1px solid #eee; color:var(--muted); font-size:14px; }
-
-    /* Mobile (<=720px) */
-    @media (max-width:720px){
-      .container { padding:0 16px; }
-      .brand img { height:28px; }
-      .brand { font-size:16px; }
-      .menu-toggle { display:inline-flex; align-items:center; gap:6px; }
-      .nav { position:absolute; left:0; right:0; top:58px; margin-left:0; background:#fff; border-top:1px solid #eee; box-shadow:0 10px 20px rgba(0,0,0,.06); padding:12px 16px; display:none; flex-direction:column; gap:12px; }
-      .nav.open { display:flex; }
-      .nav a { font-size:16px; padding:8px 6px; }
-      .hero { padding:88px 0 72px; }
-      .hero h1 { font-size:26px; line-height:1.5; }
-      .hero p { font-size:15.5px; max-width:92vw; }
-      .subcard { flex-basis:88%; }
-      .company-map iframe { height:260px; }
+    /* ===== Header ===== */
+    header{
+      position:absolute; top:0; left:0; right:0;
+      height:var(--header-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 20px; background:transparent; z-index:100;
+    }
+    .brand{display:flex; align-items:center; gap:10px; color:#fff; font-weight:700}
+    .brand img{height:36px}
+    .menu-toggle{display:none; font-size:26px; cursor:pointer; color:#fff}
+    nav{display:flex; gap:28px}
+    nav a{color:#fff; text-decoration:none; font-weight:600}
+    nav a:hover{color:var(--accent)}
+    @media(max-width:768px){
+      .menu-toggle{display:block}
+      nav{position:fixed; top:var(--header-h); right:0; background:#fff; flex-direction:column; width:220px; display:none; box-shadow:-2px 0 12px rgba(0,0,0,.12)}
+      nav a{color:#111; padding:14px 16px; border-bottom:1px solid #eee}
+      nav.show{display:flex}
     }
 
-    /* Desktop (>=900px) */
-    @media (min-width:900px){
-      .subrow { display:grid; overflow:visible; grid-template-columns:repeat(3,1fr); gap:28px; }
-      .subcard { flex:initial; }
-      .company-grid { flex-direction:row; align-items:stretch; }
-      .company-photo, .company-map { flex:1; }
-      .company-map iframe { height:100%; min-height:320px; }
+    /* ===== Hero（スライド） ===== */
+    .hero{position:relative; height:100vh; overflow:hidden; color:#fff}
+    .slides{position:absolute; inset:0}
+    .slide{
+      position:absolute; inset:0;
+      opacity:0; transition:opacity 1s ease;
+      z-index:0;
     }
+    .slide img{width:100%; height:100%; object-fit:cover; transform:scale(1)}
+    .slide.active{opacity:1; z-index:1}
+    .slide.active img{animation:kenburns 5s ease-in-out forwards}
+    @keyframes kenburns{from{transform:scale(1)} to{transform:scale(1.08)}}
+    .hero::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.6)); z-index:1}
+
+    /* ヒーロー内テキスト */
+    .hero-text{
+      position:relative; z-index:2; top:50%; transform:translateY(-50%);
+      padding:0 16px; max-width:900px; margin:0 auto;
+    }
+    .hero-text h1{
+      font-size:clamp(44px,8vw,80px);
+      line-height:1.3;
+      margin:0 0 20px;
+      text-align:left;
+      max-width:800px;
+      margin-left:auto; margin-right:auto;
+    }
+    .hero-text p{
+      font-size:clamp(16px,2vw,20px);
+      line-height:1.8;
+      margin:0 auto;
+      text-align:center;
+      color:#eee;
+    }
+
+    /* 成長グラデーション */
+    .gradient-text {
+      background: linear-gradient(270deg, #00bbff, #0077ff, #00eaff);
+      background-size: 600% 600%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientFlow 6s ease infinite;
+    }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== 共通セクション ===== */
+    section{scroll-margin-top:calc(var(--header-h) + 10px)}
+    .section{padding:70px 20px; max-width:1200px; margin:auto}
+    .card{background:var(--card); border-radius:var(--radius); padding:32px; box-shadow:var(--shadow)}
+    .section h2{color:var(--accent); margin:0 0 20px}
+
+    /* 事業内容カード */
+    .subrow{display:grid; gap:28px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+    .subcard{background:#fff; border:1px solid #ddd; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,.05); padding:16px; text-align:center}
+    .subcard img{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; margin-bottom:12px}
+    .subcard h3{margin:8px 0; color:var(--accent)}
+
+    /* 企業情報（横並び固定） */
+    .company-row{display:flex; gap:20px}
+    .company-item{flex:1}
+    .company-item .box{
+      width:100%; height:300px;
+      border-radius:12px; border:1px solid #ddd; overflow:hidden;
+      background:#fff;
+    }
+    .company-item img,
+    .company-item iframe{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+
+    footer{padding:20px; text-align:center; background:#fafafa; color:#555; font-size:14px}
   </style>
 </head>
 <body>
+  <!-- ===== Header ===== -->
   <header>
-    <div class="container">
-      <div class="brand">
-        <img src="assets/eSP3.png" alt="eSPロゴ">
-        <span>株式会社eSP｜eSPアカデミー</span>
-      </div>
-      <button id="menuToggle" class="menu-toggle" aria-label="メニューを開閉" aria-expanded="false">☰ メニュー</button>
-      <nav class="nav" id="siteNav">
-        <a href="#biz">事業内容</a>
-        <a href="#company">企業情報</a>
-        <a href="#recruit">採用情報</a>
-        <a href="#contact">お問い合わせ</a>
-      </nav>
+    <div class="brand">
+      <img src="assets/eSP3.png" alt="株式会社eSPロゴ">
+      <span>株式会社eSP</span>
     </div>
+    <span class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('show')">☰</span>
+    <nav>
+      <a href="#services" onclick="document.querySelector('nav').classList.remove('show')">事業内容</a>
+      <a href="#about" onclick="document.querySelector('nav').classList.remove('show')">企業情報</a>
+      <a href="#recruit" onclick="document.querySelector('nav').classList.remove('show')">採用情報</a>
+      <a href="#contact" onclick="document.querySelector('nav').classList.remove('show')">お問い合わせ</a>
+    </nav>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="container" style="display:block;">
-        <h1>
-          eスポーツを通して 子どもたちの<br>
-          “人間的な成長”を育む
-        </h1>
-        <p>
-          「eスポーツ×教育」をテーマに、2019年からeスポーツ教室をスタート。<br>
-          2025年4月時点で170教室以上を運営、現在は東京、神奈川、埼玉、千葉、大阪に拡大中。<br>
-          子どもたちが、楽しく好きなことで学び、成長できる場を私たちは創ります。
-        </p>
-      </div>
-    </section>
+  <!-- ===== Hero ===== -->
+  <section class="hero">
+    <div class="slides">
+      <div class="slide active"><img src="assets/slide1.jpg" alt=""></div>
+      <div class="slide"><img src="assets/slide2.jpg" alt=""></div>
+      <div class="slide"><img src="assets/slide3.jpg" alt=""></div>
+    </div>
+    <div class="hero-text">
+      <h1>楽しい。<br>だから、<span class="gradient-text">成長</span>する。</h1>
+      <p>「eスポーツ×教育」をテーマに、2019年からeスポーツ教室をスタート。<br>
+        2025年4月時点で170教室以上を運営、現在は東京、神奈川、埼玉、千葉、大阪に拡大中。<br>
+        子どもたちが、楽しく好きなことで学び、成長できる場を私たちは創ります。
+      </p>
+    </div>
+  </section>
 
-    <section id="biz" class="section">
-      <div class="container" style="display:block;">
-        <div class="card">
-          <h2>事業内容</h2>
-          <div class="subrow">
-            <div class="subcard">
-              <img src="assets/DSC06822.jpg" alt="スクール事業の様子">
-              <h3>スクール事業</h3>
-              <p>eスポーツやMinecraftを活用した学習を通じて、子どもたちの考える力と伝える力を育成します。</p>
-            </div>
-            <div class="subcard">
-              <img src="assets/58229447-1745065108279.jpg" alt="イベント企画・運営（運動会）の様子">
-              <h3>イベント企画・運営（運動会）</h3>
-              <p>子どもたちが協力し競い合う運動会を企画・運営し、チームワークや挑戦心を育みます。</p>
-            </div>
-            <div class="subcard">
-              <img src="assets/5850636572.jpg" alt="イベント企画・運営（合宿）の様子">
-              <h3>イベント企画・運営（合宿）</h3>
-              <p>宿泊を伴う合宿を企画・運営し、生活面や協働の中で子どもたちが学び合い、成長する場を提供します。</p>
-            </div>
+  <!-- ===== 事業内容 ===== -->
+  <section id="services" class="section">
+    <div class="card">
+      <h2>事業内容</h2>
+      <div class="subrow">
+        <div class="subcard">
+          <img src="assets/DSC06822.jpg" alt="スクール事業">
+          <h3>スクール事業</h3>
+          <p>eスポーツやMinecraftを活用した学習を通じて、子どもたちの考える力と伝える力を育成します。</p>
+        </div>
+        <div class="subcard">
+          <img src="assets/58229447-1745065108279.jpg" alt="運動会">
+          <h3>イベント企画・運営（運動会）</h3>
+          <p>子どもたちが協力し競い合う運動会を企画・運営し、チームワークや挑戦心を育みます。</p>
+        </div>
+        <div class="subcard">
+          <img src="assets/5850636572.jpg" alt="合宿">
+          <h3>イベント企画・運営（合宿）</h3>
+          <p>宿泊を伴う合宿を企画・運営し、生活面や協働の中で子どもたちが学び合い、成長する場を提供します。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 企業情報 ===== -->
+  <section id="about" class="section">
+    <div class="card">
+      <h2>企業情報</h2>
+      <div class="company-row">
+        <div class="company-item">
+          <div class="box">
+            <img src="assets/office.jpg" alt="本社外観">
+          </div>
+        </div>
+        <div class="company-item">
+          <div class="box">
+            <iframe
+              src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed"
+              loading="lazy" allowfullscreen></iframe>
           </div>
         </div>
       </div>
-    </section>
+      <ul>
+        <li>会社名: 株式会社eSP</li>
+        <li>所在地: 東京都新宿区西新宿3-9-7 フロンティア新宿タワーオフィス216</li>
+        <li>事業内容: スクール事業 / イベント企画・運営</li>
+        <li>代表者: 山田 祐輝</li>
+      </ul>
+    </div>
+  </section>
 
-    <section id="company" class="section">
-      <div class="container" style="display:block;">
-        <div class="card">
-          <h2>企業情報</h2>
+  <!-- ===== 採用情報 ===== -->
+  <section id="recruit" class="section">
+    <div class="card">
+      <h2>採用情報</h2>
+      <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>
+        講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
+      <p><a href="#contact">応募・お問い合わせはこちら</a></p>
+    </div>
+  </section>
 
-          <div class="company-grid">
-            <div class="company-photo">
-              <!-- ★ 本社外観は office.jpg を使用（assets/office.jpg） -->
-              <img src="assets/office.jpg" alt="本社外観（フロンティア新宿タワー）">
-            </div>
-            <div class="company-map">
-              <iframe
-                src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed"
-                loading="lazy" allowfullscreen></iframe>
-            </div>
-          </div>
+  <!-- ===== お問い合わせ ===== -->
+  <section id="contact" class="section">
+    <div class="card">
+      <h2>お問い合わせ</h2>
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSdWxARVS9v4xD9j1K53xtxFXFmLCmHFdCbNnJWnj1t8_8OqyQ/viewform?embedded=true"
+        width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+    </div>
+  </section>
 
-          <ul class="list" style="margin-top:20px;">
-            <li>会社名: 株式会社eSP</li>
-            <li>所在地: 東京都新宿区西新宿3-9-7 フロンティア新宿タワーオフィス216 （本社）</li>
-            <li>事業内容: スクール事業 / イベント企画・運営</li>
-            <li>代表者: 山田 祐輝</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="recruit" class="section">
-      <div class="container" style="display:block;">
-        <div class="card">
-          <h2>採用情報</h2>
-          <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>
-          講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
-          <p><a href="#contact">応募・お問い合わせはこちら</a></p>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="container" style="display:block;">
-        <div class="card">
-          <h2>お問い合わせ</h2>
-          <form action="mailto:info@example.jp" method="POST" enctype="text/plain">
-            <label>お問い合わせ項目:<br>
-              <select name="お問い合わせ項目" required>
-                <option value="">選択してください</option>
-                <option value="スクールについて">スクールについて</option>
-                <option value="イベントについて">イベントについて</option>
-                <option value="採用について">採用について</option>
-                <option value="その他">その他</option>
-              </select>
-            </label><br><br>
-            <label>お名前:<br><input type="text" name="お名前" required></label><br><br>
-            <label>メール:<br><input type="email" name="メール" required></label><br><br>
-            <label>内容:<br><textarea name="内容" rows="5" required></textarea></label><br><br>
-            <button type="submit">送信する</button>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">© <span id="y"></span> 株式会社eSP / eSPアカデミー</div>
-  </footer>
+  <footer>© <span id="y"></span> 株式会社eSP</footer>
 
   <script>
-    // 年号
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ハンバーガー開閉 + クリックで自動クローズ + 幅変更でリセット
-    const toggleBtn = document.getElementById('menuToggle');
-    const nav = document.getElementById('siteNav');
+    // モバイルメニュー
+    const nav = document.querySelector('nav');
+    window.addEventListener('resize', ()=>{ if (window.innerWidth >= 769) nav.classList.remove('show'); });
 
-    const setOpen = (open) => {
-      nav.classList.toggle('open', open);
-      toggleBtn?.setAttribute('aria-expanded', String(open));
-    };
+    // スライドショー
+    document.addEventListener("DOMContentLoaded", () => {
+      let current = 0;
+      const slides = document.querySelectorAll(".slide");
 
-    toggleBtn?.addEventListener('click', () => {
-      setOpen(!nav.classList.contains('open'));
-    });
+      function showSlide(index) {
+        slides.forEach((slide, i) => {
+          slide.classList.remove("active");
+          if (i === index) slide.classList.add("active");
+        });
+      }
 
-    // 各リンク選択で自動クローズ
-    nav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => setOpen(false));
-    });
-
-    // 横幅が広くなったら状態リセット（PC表示へ戻るとき）
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 721) setOpen(false);
+      setInterval(() => {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+      }, 5000);
     });
   </script>
 </body>
