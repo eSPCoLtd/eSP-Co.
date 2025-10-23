@@ -2,87 +2,122 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>株式会社eSP｜eSPアカデミー</title>
   <link rel="icon" href="assets/eSP3.png" />
   <style>
-    :root { --accent:#00bbff; --header-h:70px; --panel:#f7f9fb; --card:#ffffff; }
-
-    html, body {
-      margin:0; min-height:100%; color:#111;
+    :root{
+      --accent:#00bbff;
+      --header-h:64px;             /* ベースのヘッダー高さ */
+      --panel:#f7f9fb;
+      --card:#ffffff;
+    }
+    html,body{
+      margin:0; color:#111;
       font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
       line-height:1.6;
+      min-height:100%;
     }
 
-    /* ===== Header（固定・半透明） ===== */
+    /* ================= Header（固定・半透明・ノッチ対応） ================= */
     header{
-      position:fixed; top:0; left:0; right:0; height:var(--header-h);
+      position:fixed; top:0; left:0; right:0;
       display:flex; align-items:center; justify-content:space-between;
-      padding:0 24px; background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
+      gap:12px;
+      padding:0 16px;
+      height:calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      padding-top:env(safe-area-inset-top, 0px);
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(4px);
       z-index:1000;
+      box-sizing:border-box;
     }
-    .brand{display:flex; align-items:center; gap:12px; color:#fff; font-weight:700; font-size:18px}
-    .brand img{height:36px}
-    nav{display:flex; gap:28px}
-    nav a{color:#fff; text-decoration:none; font-weight:600; font-size:16px}
-    nav a:hover{color:var(--accent)}
+    .brand{display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:16px}
+    .brand img{height:34px}
 
-    /* ===== Hero（全画面・フェード＋ズーム） ===== */
+    /* ナビ（PC表示） */
+    .nav{
+      display:flex; gap:28px; align-items:center;
+    }
+    .nav a{color:#fff; text-decoration:none; font-weight:600; font-size:16px}
+    .nav a:hover{color:var(--accent)}
+
+    /* ハンバーガー（スマホ表示用） */
+    .hamburger{
+      display:none;
+      color:#fff; background:transparent; border:1px solid rgba(255,255,255,.45);
+      padding:8px 12px; border-radius:10px; font-size:16px;
+    }
+
+    /* モバイルメニュー（ドロワー） */
+    .mobile-menu{
+      position:fixed; top:calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      left:0; right:0;
+      background:rgba(0,0,0,.9);
+      backdrop-filter:blur(4px);
+      display:none; flex-direction:column; gap:12px;
+      padding:16px; z-index:999;
+    }
+    .mobile-menu a{
+      color:#fff; text-decoration:none; font-weight:600; font-size:18px;
+      padding:10px 6px; border-radius:8px;
+    }
+    .mobile-menu a:hover{background:rgba(255,255,255,.08); color:var(--accent)}
+
+    /* ================= Hero（全画面・フェード＋ズーム、オーバーレイ無し） ================= */
     .hero{
-      position:relative; min-height:100vh; padding-top:var(--header-h);
+      position:relative;
+      min-height:calc(100dvh);            /* スマホでも画面いっぱい */
+      padding-top:calc(var(--header-h) + env(safe-area-inset-top, 0px));
       display:flex; align-items:center; justify-content:center;
       color:#fff; background:#000; overflow:hidden;
     }
     .slides{position:absolute; inset:0; z-index:0; pointer-events:none;}
     .slide-img{
-      position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-      opacity:0;
-      /* デフォルトは少しだけ拡大しておく（引きで縁が出ないように） */
-      transform:scale(1.06);
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; object-position:center; /* PCと同じ横幅の見え方を保つ */
+      opacity:0; transform:scale(1.06);         /* ほんのり拡大で縁防止 */
     }
-    /* 4枚・20sループ、5秒ごとに切替 */
+    /* 4枚・20sループ、5秒ごと切替。1枚目/3枚目=アップ、2枚目/4枚目=引き */
     .slide-img:nth-child(1){ animation:fadeZoomIn 20s infinite ease-in-out 0s; }
     .slide-img:nth-child(2){ animation:fadeZoomOut 20s infinite ease-in-out 5s; }
     .slide-img:nth-child(3){ animation:fadeZoomIn 20s infinite ease-in-out 10s; }
     .slide-img:nth-child(4){ animation:fadeZoomOut 20s infinite ease-in-out 15s; }
 
-    /* フェード＋ズーム（アップ） */
     @keyframes fadeZoomIn{
-      0% { opacity:0; transform:scale(1.06); }
-      5% { opacity:1; transform:scale(1.06); }
-      25%{ opacity:1; transform:scale(1.12); }  /* ゆるくアップ */
-      30%{ opacity:0; transform:scale(1.12); }
-      100%{ opacity:0; transform:scale(1.12); }
+      0%{opacity:0; transform:scale(1.06);}
+      5%{opacity:1; transform:scale(1.06);}
+      25%{opacity:1; transform:scale(1.12);}   /* アップ */
+      30%{opacity:0; transform:scale(1.12);}
+      100%{opacity:0; transform:scale(1.12);}
     }
-    /* フェード＋ズーム（引き）※最初を大きめ→少し戻す */
     @keyframes fadeZoomOut{
-      0% { opacity:0; transform:scale(1.12); }
-      5% { opacity:1; transform:scale(1.12); }
-      25%{ opacity:1; transform:scale(1.04); }  /* 少し引く（でも1.0未満にしない） */
-      30%{ opacity:0; transform:scale(1.04); }
-      100%{ opacity:0; transform:scale(1.04); }
+      0%{opacity:0; transform:scale(1.12);}
+      5%{opacity:1; transform:scale(1.12);}
+      25%{opacity:1; transform:scale(1.04);}   /* 引き（1.0未満にしない） */
+      30%{opacity:0; transform:scale(1.04);}
+      100%{opacity:0; transform:scale(1.04);}
     }
 
     .hero-content{
       position:relative; z-index:2; width:100%; max-width:900px; padding:0 20px;
       display:flex; flex-direction:column; align-items:center;
-      text-shadow:0 3px 8px rgba(0,0,0,.8); /* 写真はそのまま、文字だけ読みやすく */
+      text-shadow:0 3px 8px rgba(0,0,0,.8); /* 写真は明るいまま、文字だけ読みやすく */
     }
     .hero h1{
-      margin:0 0 18px; width:100%; max-width:820px; text-align:left; /* タイトル左寄せ */
-      font-size:clamp(48px,8vw,88px); line-height:1.2;
+      margin:0 0 18px; width:100%; max-width:820px;
+      text-align:left; font-size:clamp(40px,8vw,88px); line-height:1.2;
     }
-    /* 成長＝青一色（#1e90ff） */
-    .hero h1 .solid-blue{ color:#1e90ff; -webkit-text-fill-color:#1e90ff; text-shadow:0 3px 8px rgba(0,0,0,.6); }
-
+    .hero h1 .blue{ color:#1e90ff; }   /* 成長は青一色 */
     .hero p{
       margin:0; color:#fff; text-align:center;
-      font-size:clamp(16px,2vw,20px); line-height:1.8;
+      font-size:clamp(15px,2.2vw,20px); line-height:1.8;
       text-shadow:0 2px 6px rgba(0,0,0,.7);
     }
 
-    /* ===== 共通セクション ===== */
-    section{scroll-margin-top:calc(var(--header-h) + 10px)}
+    /* ================= Sections 共通 ================= */
+    section{scroll-margin-top:calc(var(--header-h) + 12px + env(safe-area-inset-top, 0px))}
     .section{padding:80px 20px; background:var(--panel);}
     .container{max-width:1200px; margin:0 auto;}
     .card{
@@ -92,13 +127,42 @@
     }
     .card h2{margin:0 0 16px; color:var(--accent)}
 
-    /* 事業内容カード */
-    .subrow{display:grid; gap:28px; grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-    .subcard{background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:16px; text-align:center}
+    /* ===== 事業内容：モバイル横スクロール / PCは3カラム ===== */
+    .subrow{
+      display:flex; gap:16px; margin-top:8px;
+      overflow-x:auto; padding:6px 4px 10px;
+      scroll-snap-type:x mandatory;
+      -webkit-overflow-scrolling:touch;
+    }
+    .subrow::-webkit-scrollbar{height:8px}
+    .subrow::-webkit-scrollbar-thumb{background:#d5eefd; border-radius:8px}
+    .subcard{
+      flex:0 0 85%;
+      background:#fff; border:1px solid #e8e8e8; border-radius:12px;
+      padding:16px; text-align:center; scroll-snap-align:start;
+    }
     .subcard img{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; margin-bottom:12px}
     .subcard h3{margin:6px 0 8px; color:var(--accent)}
 
-    /* 会社写真＋地図：PC横並び・同サイズ / モバイル縦 */
+    /* PC：3カラムに切替＋オーバーフロー解除 */
+    @media (min-width: 900px){
+      .hamburger{ display:none; }
+      .nav{ display:flex; }
+      .mobile-menu{ display:none !important; }
+      .subrow{
+        display:grid; overflow:visible; padding:0;
+        grid-template-columns:repeat(3, 1fr); gap:28px;
+      }
+      .subcard{ flex:initial; }
+    }
+
+    /* スマホ：ハンバーガー表示、ナビ隠す */
+    @media (max-width: 899.98px){
+      .hamburger{ display:inline-flex; }
+      .nav{ display:none; }
+    }
+
+    /* 会社写真＋地図：PC横並び・モバイル縦 */
     .company-info{display:grid; gap:24px}
     .company-media img, .company-media iframe{
       width:100%; height:320px; object-fit:cover; border-radius:12px; display:block;
@@ -109,18 +173,32 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
+  <!-- ================= Header ================= -->
   <header>
-    <div class="brand"><img src="assets/eSP3.png" alt="eSPロゴ"><span>株式会社eSP</span></div>
-    <nav>
+    <div class="brand">
+      <img src="assets/eSP3.png" alt="eSPロゴ">
+      <span>株式会社eSP</span>
+    </div>
+
+    <nav class="nav" aria-label="グローバル">
       <a href="#biz">事業内容</a>
       <a href="#company">企業情報</a>
       <a href="#recruit">採用情報</a>
       <a href="#contact">お問い合わせ</a>
     </nav>
+
+    <button class="hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">☰ メニュー</button>
   </header>
 
-  <!-- Hero -->
+  <!-- モバイル用メニュー -->
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルメニュー">
+    <a href="#biz">事業内容</a>
+    <a href="#company">企業情報</a>
+    <a href="#recruit">採用情報</a>
+    <a href="#contact">お問い合わせ</a>
+  </nav>
+
+  <!-- ================= Hero ================= -->
   <section class="hero">
     <div class="slides">
       <img class="slide-img" src="assets/slide1.jpg" alt="">
@@ -129,7 +207,7 @@
       <img class="slide-img" src="assets/slide4.jpg" alt="">
     </div>
     <div class="hero-content">
-      <h1>楽しい。<br>だから、<span class="solid-blue">成長</span>する。</h1>
+      <h1>楽しい。<br>だから、<span class="blue">成長</span>する。</h1>
       <p>
         「eスポーツ×教育」をテーマに、2019年からeスポーツ教室をスタート。<br>
         2025年4月時点で170教室以上を運営、現在は東京、神奈川、埼玉、千葉、大阪に拡大中。<br>
@@ -138,7 +216,7 @@
     </div>
   </section>
 
-  <!-- 事業内容 -->
+  <!-- ================= 事業内容 ================= -->
   <section id="biz" class="section">
     <div class="container">
       <div class="card">
@@ -164,7 +242,7 @@
     </div>
   </section>
 
-  <!-- 企業情報 -->
+  <!-- ================= 企業情報 ================= -->
   <section id="company" class="section">
     <div class="container">
       <div class="card">
@@ -187,7 +265,7 @@
     </div>
   </section>
 
-  <!-- 採用情報 -->
+  <!-- ================= 採用情報 ================= -->
   <section id="recruit" class="section">
     <div class="container">
       <div class="card">
@@ -199,7 +277,7 @@
     </div>
   </section>
 
-  <!-- お問い合わせ（Googleフォーム） -->
+  <!-- ================= お問い合わせ（Googleフォーム） ================= -->
   <section id="contact" class="section">
     <div class="container">
       <div class="card">
@@ -211,6 +289,29 @@
   </section>
 
   <footer>© <span id="y"></span> 株式会社eSP / eSPアカデミー</footer>
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <script>
+    // 年号
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // ハンバーガー制御（リンクを押したら自動で閉じる）
+    const btn = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    const toggleMenu = (open) => {
+      menu.style.display = open ? 'flex' : 'none';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      toggleMenu(open);
+    });
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => toggleMenu(false)); // ← ここで確実に閉じる
+    });
+    // 画面幅が広がったら強制クローズ
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 900) toggleMenu(false);
+    });
+  </script>
 </body>
 </html>
