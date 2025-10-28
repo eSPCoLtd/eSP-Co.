@@ -2,181 +2,130 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <title>株式会社eSP｜eSPアカデミー</title>
   <link rel="icon" href="assets/eSP3.png" />
+  <!-- Preconnect for embeds -->
+  <link rel="preconnect" href="https://docs.google.com" crossorigin>
+  <link rel="preconnect" href="https://www.google.com" crossorigin>
   <style>
     :root{
       --accent:#00bbff;
-      --header-h:64px;             /* ベースのヘッダー高さ */
+      --header-h:64px;
       --panel:#f7f9fb;
       --card:#ffffff;
     }
-    html,body{
-      margin:0; color:#111;
-      font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",sans-serif;
-      line-height:1.6;
-      min-height:100%;
-    }
+    html,body{ margin:0; color:#111; font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,Roboto,Arial,sans-serif; line-height:1.6; min-height:100%; }
 
-    /* ================= Header（固定・半透明・ノッチ対応） ================= */
+    /* ===== Header (fixed / translucent / safe-area) ===== */
     header{
-      position:fixed; top:0; left:0; right:0;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px;
-      padding:0 16px;
-      height:calc(var(--header-h) + env(safe-area-inset-top, 0px));
-      padding-top:env(safe-area-inset-top, 0px);
+      position:fixed; inset:0 0 auto 0; height:calc(var(--header-h) + env(safe-area-inset-top, 0px));
+      padding:env(safe-area-inset-top, 0px) 16px 0; display:flex; align-items:center; justify-content:space-between; gap:12px;
       background:rgba(0,0,0,.55);
-      backdrop-filter:blur(4px);
-      z-index:1000;
-      box-sizing:border-box;
+      -webkit-backdrop-filter:saturate(160%) blur(4px); backdrop-filter:saturate(160%) blur(4px);
+      z-index:1000; box-sizing:border-box; border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    @supports not (backdrop-filter: blur(4px)) {
+      header{ background:#111; }
     }
     .brand{display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:16px}
-    .brand img{height:34px}
+    .brand img{height:34px; width:auto}
 
-    /* ナビ（PC表示） */
-    .nav{
-      display:flex; gap:28px; align-items:center;
-    }
+    .nav{ display:flex; gap:28px; align-items:center; }
     .nav a{color:#fff; text-decoration:none; font-weight:600; font-size:16px}
     .nav a:hover{color:var(--accent)}
 
-    /* ハンバーガー（スマホ表示用） */
-    .hamburger{
-      display:none;
-      color:#fff; background:transparent; border:1px solid rgba(255,255,255,.45);
-      padding:8px 12px; border-radius:10px; font-size:16px;
-    }
+    .hamburger{ display:none; color:#fff; background:transparent; border:1px solid rgba(255,255,255,.45); padding:8px 12px; border-radius:10px; font-size:16px; }
 
-    /* モバイルメニュー（ドロワー） */
-    .mobile-menu{
-      position:fixed; top:calc(var(--header-h) + env(safe-area-inset-top, 0px));
-      left:0; right:0;
-      background:rgba(0,0,0,.9);
-      backdrop-filter:blur(4px);
-      display:none; flex-direction:column; gap:12px;
-      padding:16px; z-index:999;
-    }
-    .mobile-menu a{
-      color:#fff; text-decoration:none; font-weight:600; font-size:18px;
-      padding:10px 6px; border-radius:8px;
-    }
-    .mobile-menu a:hover{background:rgba(255,255,255,.08); color:var(--accent)}
+    .mobile-menu{ position:fixed; top:calc(var(--header-h) + env(safe-area-inset-top, 0px)); left:0; right:0; background:rgba(0,0,0,.9); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); display:none; flex-direction:column; gap:12px; padding:16px; z-index:999; }
+    .mobile-menu[hidden]{ display:none !important; }
+    .mobile-menu a{ color:#fff; text-decoration:none; font-weight:600; font-size:18px; padding:10px 6px; border-radius:8px; }
+    .mobile-menu a:hover{ background:rgba(255,255,255,.08); color:var(--accent) }
 
-    /* ================= Hero（全画面・フェード＋ズーム、オーバーレイ無し） ================= */
-    .hero{
-      position:relative;
-      min-height:calc(100dvh);            /* スマホでも画面いっぱい */
-      padding-top:calc(var(--header-h) + env(safe-area-inset-top, 0px));
-      display:flex; align-items:center; justify-content:center;
-      color:#fff; background:#000; overflow:hidden;
-    }
-    .slides{position:absolute; inset:0; z-index:0; pointer-events:none;}
-    .slide-img{
-      position:absolute; inset:0; width:100%; height:100%;
-      object-fit:cover; object-position:center; /* PCと同じ横幅の見え方を保つ */
-      opacity:0; transform:scale(1.06);         /* ほんのり拡大で縁防止 */
-    }
-    /* 4枚・20sループ、5秒ごと切替。1枚目/3枚目=アップ、2枚目/4枚目=引き */
+    /* ===== Hero (full-viewport slideshow, motion-safe) ===== */
+    .hero{ position:relative; min-height:100dvh; padding-top:calc(var(--header-h) + env(safe-area-inset-top, 0px)); display:flex; align-items:center; justify-content:center; color:#fff; background:#000; overflow:hidden; }
+    .slides{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+    .slide-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; opacity:0; transform:scale(1.06); }
     .slide-img:nth-child(1){ animation:fadeZoomIn 20s infinite ease-in-out 0s; }
     .slide-img:nth-child(2){ animation:fadeZoomOut 20s infinite ease-in-out 5s; }
     .slide-img:nth-child(3){ animation:fadeZoomIn 20s infinite ease-in-out 10s; }
     .slide-img:nth-child(4){ animation:fadeZoomOut 20s infinite ease-in-out 15s; }
-
-    @keyframes fadeZoomIn{
-      0%{opacity:0; transform:scale(1.06);}
-      5%{opacity:1; transform:scale(1.06);}
-      25%{opacity:1; transform:scale(1.12);}   /* アップ */
-      30%{opacity:0; transform:scale(1.12);}
-      100%{opacity:0; transform:scale(1.12);}
-    }
-    @keyframes fadeZoomOut{
-      0%{opacity:0; transform:scale(1.12);}
-      5%{opacity:1; transform:scale(1.12);}
-      25%{opacity:1; transform:scale(1.04);}   /* 引き（1.0未満にしない） */
-      30%{opacity:0; transform:scale(1.04);}
-      100%{opacity:0; transform:scale(1.04);}
+    @keyframes fadeZoomIn{ 0%{opacity:0; transform:scale(1.06);} 5%{opacity:1; transform:scale(1.06);} 25%{opacity:1; transform:scale(1.12);} 30%{opacity:0; transform:scale(1.12);} 100%{opacity:0; transform:scale(1.12);} }
+    @keyframes fadeZoomOut{ 0%{opacity:0; transform:scale(1.12);} 5%{opacity:1; transform:scale(1.12);} 25%{opacity:1; transform:scale(1.04);} 30%{opacity:0; transform:scale(1.04);} 100%{opacity:0; transform:scale(1.04);} }
+    @media (prefers-reduced-motion: reduce){
+      .slide-img{ animation:none !important; opacity:0 !important; }
+      .slide-img:nth-child(1){ opacity:1 !important; }
     }
 
-    .hero-content{
-      position:relative; z-index:2; width:100%; max-width:900px; padding:0 20px;
-      display:flex; flex-direction:column; align-items:center;
-      text-shadow:0 3px 8px rgba(0,0,0,.8); /* 写真は明るいまま、文字だけ読みやすく */
-    }
-    .hero h1{
-      margin:0 0 18px; width:100%; max-width:820px;
-      text-align:left; font-size:clamp(40px,8vw,88px); line-height:1.2;
-    }
-    .hero h1 .blue{ color:#1e90ff; }   /* 成長は青一色 */
-    .hero p{
-      margin:0; color:#fff; text-align:center;
-      font-size:clamp(15px,2.2vw,20px); line-height:1.8;
-      text-shadow:0 2px 6px rgba(0,0,0,.7);
-    }
+    .hero-content{ position:relative; z-index:2; width:100%; max-width:900px; padding:0 20px; display:flex; flex-direction:column; align-items:center; text-shadow:0 3px 8px rgba(0,0,0,.8); }
+    .hero h1{ margin:0 0 18px; width:100%; max-width:820px; text-align:left; font-size:clamp(40px,8vw,88px); line-height:1.2; }
+    .hero h1 .blue{ color:#1e90ff; }
+    .hero p{ margin:0; color:#fff; text-align:center; font-size:clamp(15px,2.2vw,20px); line-height:1.8; text-shadow:0 2px 6px rgba(0,0,0,.7); }
 
-    /* ================= Sections 共通 ================= */
-    section{scroll-margin-top:calc(var(--header-h) + 12px + env(safe-area-inset-top, 0px))}
-    .section{padding:80px 20px; background:var(--panel);}
-    .container{max-width:1200px; margin:0 auto;}
-    .card{
-      background:var(--card); border-radius:16px;
-      box-shadow:0 8px 20px rgba(0,0,0,.08);
-      padding:32px; margin-bottom:40px;
-    }
-    .card h2{margin:0 0 16px; color:var(--accent)}
+    /* ===== Sections ===== */
+    section{ scroll-margin-top:calc(var(--header-h) + 12px + env(safe-area-inset-top, 0px)); }
+    .section{ padding:80px 20px; background:var(--panel); content-visibility:auto; contain-intrinsic-size: 1px 600px; }
+    .container{ max-width:1200px; margin:0 auto; }
+    .card{ background:var(--card); border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.08); padding:32px; margin-bottom:40px; }
+    .card h2{ margin:0 0 16px; color:var(--accent) }
 
-    /* ===== 事業内容：モバイル横スクロール / PCは3カラム ===== */
-    .subrow{
-      display:flex; gap:16px; margin-top:8px;
-      overflow-x:auto; padding:6px 4px 10px;
-      scroll-snap-type:x mandatory;
-      -webkit-overflow-scrolling:touch;
-    }
-    .subrow::-webkit-scrollbar{height:8px}
-    .subrow::-webkit-scrollbar-thumb{background:#d5eefd; border-radius:8px}
-    .subcard{
-      flex:0 0 85%;
-      background:#fff; border:1px solid #e8e8e8; border-radius:12px;
-      padding:16px; text-align:center; scroll-snap-align:start;
-    }
-    .subcard img{width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:10px; margin-bottom:12px}
-    .subcard h3{margin:6px 0 8px; color:var(--accent)}
+    .subrow{ display:flex; gap:16px; margin-top:8px; overflow-x:auto; padding:6px 4px 10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+    .subrow::-webkit-scrollbar{ height:8px }
+    .subrow::-webkit-scrollbar-thumb{ background:#d5eefd; border-radius:8px }
+    .subcard{ flex:0 0 85%; background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:16px; text-align:center; scroll-snap-align:start; }
+    .subcard img{ width:100%; height:auto; display:block; border-radius:10px; margin-bottom:12px; object-fit:cover; aspect-ratio:16/9; }
+    .subcard h3{ margin:6px 0 8px; color:var(--accent) }
 
-    /* PC：3カラムに切替＋オーバーフロー解除 */
-    @media (min-width: 900px){
+    @media (min-width: 1024px){
       .hamburger{ display:none; }
       .nav{ display:flex; }
       .mobile-menu{ display:none !important; }
-      .subrow{
-        display:grid; overflow:visible; padding:0;
-        grid-template-columns:repeat(3, 1fr); gap:28px;
-      }
+      /* PCは3カラム、モバイル/タブは横スクロールのまま */
+      .subrow{ display:grid; overflow:visible; padding:0; grid-template-columns:repeat(3, 1fr); gap:28px; }
       .subcard{ flex:initial; }
     }
-
-    /* スマホ：ハンバーガー表示、ナビ隠す */
-    @media (max-width: 899.98px){
-      .hamburger{ display:inline-flex; }
-      .nav{ display:none; }
+      .nav{ display:flex; }
+      .mobile-menu{ display:none !important; }
+      .subrow{ display:grid; overflow:visible; padding:0; grid-template-columns:repeat(3, 1fr); gap:28px; }
+      .subcard{ flex:initial; }
     }
+    @media (max-width: 899.98px){ .hamburger{ display:inline-flex; } .nav{ display:none; } }
 
-    /* 会社写真＋地図：PC横並び・モバイル縦 */
-    .company-info{display:grid; gap:24px}
-    .company-media img, .company-media iframe{
-      width:100%; height:320px; object-fit:cover; border-radius:12px; display:block;
-    }
+    .company-info{ display:grid; gap:24px }
+    .company-media img, .company-media iframe{ width:100%; height:320px; object-fit:cover; border-radius:12px; display:block; }
     @media (min-width:800px){ .company-info{ grid-template-columns:1fr 1fr } }
 
-    footer{padding:28px 0; background:#fafafa; border-top:1px solid #eee; text-align:center; color:#555; font-size:14px}
-  </style>
+    footer{ padding:28px 0; background:#fafafa; border-top:1px solid #eee; text-align:center; color:#555; font-size:14px }
+    /* 支部：横スクロール（PC含む常時） */
+    .branch-row{ display:flex; gap:16px; overflow-x:auto; padding:6px 2px 10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+    .branch-row::-webkit-scrollbar{ height:8px }
+    .branch-row::-webkit-scrollbar-thumb{ background:#d5eefd; border-radius:8px }
+    .branch-card{ flex:0 0 240px; background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:16px; scroll-snap-align:start; }
+    .branch-card h4{ margin:0 0 8px; font-size:16px; color:#111 }
+    .branch-card .addr{ margin:0 0 10px; color:#666; font-size:14px }
+    .branch-card .more{ color:var(--accent); text-decoration:none; font-weight:700; font-size:14px }
+  /* 支部：横スクロール（PC含む常時） */
+    .branch-row{ display:flex; gap:16px; overflow-x:auto; padding:6px 2px 10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
+    .branch-row::-webkit-scrollbar{ height:8px }
+    .branch-row::-webkit-scrollbar-thumb{ background:#d5eefd; border-radius:8px }
+    .branch-card{ flex:0 0 260px; background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:16px; scroll-snap-align:start; }
+    .branch-card h4{ margin:10px 0 6px; font-size:16px; color:#111 }
+    .branch-card .addr{ margin:0 0 0; color:#666; font-size:14px }
+    /* 画像と地図リンクのサイズ一致 */
+    .branch-media, .branch-map{ display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; border:1px solid #e8e8e8; }
+    .branch-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .branch-map{ position:relative; display:grid; place-items:center; text-decoration:none; background:#eff6ff; }
+    .branch-map span{ font-weight:700; }
+</style>
 </head>
 <body>
-  <!-- ================= Header ================= -->
+  <!-- ===== Header ===== -->
   <header>
     <div class="brand">
-      <img src="assets/eSP3.png" alt="eSPロゴ">
+      <img src="assets/eSP3.png" alt="eSPロゴ" width="34" height="34" decoding="async" loading="eager">
       <span>株式会社eSP</span>
     </div>
 
@@ -187,24 +136,25 @@
       <a href="#contact">お問い合わせ</a>
     </nav>
 
-    <button class="hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu">☰ メニュー</button>
+    <button class="hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="メニューを開閉">☰ メニュー</button>
   </header>
 
-  <!-- モバイル用メニュー -->
-  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルメニュー">
+  <!-- Mobile Menu -->
+  <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルメニュー" hidden inert>
     <a href="#biz">事業内容</a>
     <a href="#company">企業情報</a>
     <a href="#recruit">採用情報</a>
     <a href="#contact">お問い合わせ</a>
   </nav>
 
-  <!-- ================= Hero ================= -->
+  <!-- ===== Hero ===== -->
   <section class="hero">
     <div class="slides">
-      <img class="slide-img" src="assets/slide1.jpg" alt="">
-      <img class="slide-img" src="assets/slide2.jpg" alt="">
-      <img class="slide-img" src="assets/slide3.jpg" alt="">
-      <img class="slide-img" src="assets/slide4.jpg" alt="">
+      <!-- First image: LCP priority -->
+      <img class="slide-img" src="assets/slide1.jpg" alt="教室の様子" width="1920" height="1080" fetchpriority="high" loading="eager">
+      <img class="slide-img" src="assets/slide2.jpg" alt="イベントの様子" width="1920" height="1080" decoding="async" loading="lazy">
+      <img class="slide-img" src="assets/slide3.jpg" alt="子どもたちの学び" width="1920" height="1080" decoding="async" loading="lazy">
+      <img class="slide-img" src="assets/slide4.jpg" alt="チームワーク" width="1920" height="1080" decoding="async" loading="lazy">
     </div>
     <div class="hero-content">
       <h1>楽しい。<br>だから、<span class="blue">成長</span>する。</h1>
@@ -216,24 +166,24 @@
     </div>
   </section>
 
-  <!-- ================= 事業内容 ================= -->
+  <!-- ===== 事業内容 ===== -->
   <section id="biz" class="section">
     <div class="container">
       <div class="card">
         <h2>事業内容</h2>
         <div class="subrow">
           <div class="subcard">
-            <img src="assets/DSC06822.jpg" alt="スクール事業">
+            <img src="assets/DSC06822.jpg" alt="スクール事業" width="1280" height="720" loading="lazy" decoding="async">
             <h3>スクール事業</h3>
             <p>eスポーツやMinecraftを活用した学習を通じて、子どもたちの考える力と伝える力を育成します。</p>
           </div>
           <div class="subcard">
-            <img src="assets/58229447-1745065108279.jpg" alt="イベント企画・運営（運動会）">
+            <img src="assets/58229447-1745065108279.jpg" alt="イベント企画・運営（運動会）" width="1280" height="720" loading="lazy" decoding="async">
             <h3>イベント企画・運営（運動会）</h3>
             <p>子どもたちが協力し競い合う運動会を企画・運営し、チームワークや挑戦心を育みます。</p>
           </div>
           <div class="subcard">
-            <img src="assets/5850636572.jpg" alt="イベント企画・運営（合宿）">
+            <img src="assets/5850636572.jpg" alt="イベント企画・運営（合宿）" width="1280" height="720" loading="lazy" decoding="async">
             <h3>イベント企画・運営（合宿）</h3>
             <p>宿泊を伴う合宿を企画・運営し、生活面や協働の中で子どもたちが学び合い、成長する場を提供します。</p>
           </div>
@@ -242,7 +192,7 @@
     </div>
   </section>
 
-  <!-- ================= 企業情報 ================= -->
+  <!-- ===== 企業情報 ===== -->
   <section id="company" class="section">
     <div class="container">
       <div class="card">
@@ -254,36 +204,74 @@
           <li>代表者: 山田 祐輝</li>
         </ul>
         <div class="company-info">
-          <div class="company-media"><img src="assets/office.jpg" alt="本社外観"></div>
+          <div class="company-media"><img src="assets/office.jpg" alt="本社外観" width="1280" height="720" loading="lazy" decoding="async"></div>
           <div class="company-media">
-            <iframe
-              src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed"
-              width="100%" height="320" style="border:0;" allowfullscreen loading="lazy"></iframe>
+            <div id="mapHolder" style="position:relative;background:#e6f4ff;border:1px solid #dbeafe;border-radius:12px;height:320px;display:grid;place-items:center;" aria-label="地図のプレースホルダー">
+              <button id="loadMap" style="padding:10px 14px;border-radius:10px;border:1px solid #93c5fd;background:#eff6ff;font-weight:700;cursor:pointer">
+                地図を表示
+              </button>
+            </div>
           </div>
         </div>
+
+        <!-- 支部一覧（横スクロール、写真+支部名+住所のみ） -->
+        <div class="branches">
+          <h3 style="margin:24px 0 12px; color: var(--accent);">支部一覧</h3>
+          <div class="branch-row">
+            <!-- 東京支部 -->
+            <article class="branch-card">
+              <div class="branch-media"><img src="assets/tokyo.jpg" alt="東京支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+              <h4>東京支部</h4>
+              <p class="addr">東京都内 各拠点</p>
+            </article>
+            <!-- 神奈川支部 -->
+            <article class="branch-card">
+              <div class="branch-media"><img src="assets/kanagawa.jpg" alt="神奈川支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+              <h4>神奈川支部</h4>
+              <p class="addr">神奈川県内 各拠点</p>
+            </article>
+            <!-- 埼玉支部 -->
+            <article class="branch-card">
+              <div class="branch-media"><img src="assets/saitama.jpg" alt="埼玉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+              <h4>埼玉支部</h4>
+              <p class="addr">埼玉県内 各拠点</p>
+            </article>
+            <!-- 千葉支部 -->
+            <article class="branch-card">
+              <div class="branch-media"><img src="assets/chiba.jpg" alt="千葉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+              <h4>千葉支部</h4>
+              <p class="addr">千葉県内 各拠点</p>
+            </article>
+            <!-- 大阪支部 -->
+            <article class="branch-card">
+              <div class="branch-media"><img src="assets/osaka.jpg" alt="大阪支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+              <h4>大阪支部</h4>
+              <p class="addr">大阪府内 各拠点</p>
+            </article>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- ================= 採用情報 ================= -->
+  <!-- ===== 採用情報 ===== -->
   <section id="recruit" class="section">
     <div class="container">
       <div class="card">
         <h2>採用情報</h2>
-        <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>
-           講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
+        <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
         <p><a href="#contact">応募・お問い合わせはこちら</a></p>
       </div>
     </div>
   </section>
 
-  <!-- ================= お問い合わせ（Googleフォーム） ================= -->
+  <!-- ===== お問い合わせ（Googleフォーム） ===== -->
   <section id="contact" class="section">
     <div class="container">
       <div class="card">
         <h2>お問い合わせ</h2>
-        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdWxARVS9v4xD9j1K53xtxFXFmLCmHFdCbNnJWnj1t8_8OqyQ/viewform?embedded=true"
-                width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0">読み込んでいます…</iframe>
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdWxARVS9v4xD9j1K53xtxFXFmLCmHFdCbNnJWnj1t8_8OqyQ/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0" loading="lazy" referrerpolicy="no-referrer-when-downgrade">読み込んでいます…</iframe>
       </div>
     </div>
   </section>
@@ -294,23 +282,33 @@
     // 年号
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ハンバーガー制御（リンクを押したら自動で閉じる）
+    // ハンバーガー（リンクで自動閉） + a11y (inert/hidden)
     const btn = document.getElementById('menuBtn');
     const menu = document.getElementById('mobileMenu');
-    const toggleMenu = (open) => {
-      menu.style.display = open ? 'flex' : 'none';
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    const setMenu = (open) => {
+      if (!menu) return;
+      menu.hidden = !open;
+      if (open) { menu.removeAttribute('inert'); } else { menu.setAttribute('inert', ''); }
+      btn?.setAttribute('aria-expanded', String(open));
     };
-    btn.addEventListener('click', () => {
-      const open = btn.getAttribute('aria-expanded') !== 'true';
-      toggleMenu(open);
-    });
-    menu.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => toggleMenu(false)); // ← ここで確実に閉じる
-    });
-    // 画面幅が広がったら強制クローズ
-    window.addEventListener('resize', () => {
-      if (window.innerWidth >= 900) toggleMenu(false);
+    btn?.addEventListener('click', () => setMenu(menu?.hidden));
+    menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    addEventListener('resize', () => { if (innerWidth >= 900) setMenu(false); });
+
+    // 遅延ロード地図（クリック時にだけ iframe を挿入）
+    const mapBtn = document.getElementById('loadMap');
+    mapBtn?.addEventListener('click', () => {
+      const holder = document.getElementById('mapHolder');
+      if (!holder) return;
+      const iframe = document.createElement('iframe');
+      iframe.loading = 'lazy';
+      iframe.width = '100%';
+      iframe.height = '320';
+      iframe.style.border = '0';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.allowFullscreen = true;
+      iframe.src = 'https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed';
+      holder.replaceChildren(iframe);
     });
   </script>
 </body>
