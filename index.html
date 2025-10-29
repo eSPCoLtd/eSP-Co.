@@ -7,9 +7,23 @@
   <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <title>株式会社eSP｜eSPアカデミー</title>
+  <meta name="description" content="株式会社eSPは『楽しい。だから、成長する。』を理念に、eスポーツ×教育のスクール事業やイベント運営を展開しています。" />
+  <link rel="canonical" href="https://www.example.com/" />
   <link rel="icon" href="assets/eSP3.png" />
+  <link rel="apple-touch-icon" href="assets/eSP3.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="株式会社eSP">
+  <meta property="og:title" content="株式会社eSP｜eSPアカデミー">
+  <meta property="og:description" content="『楽しい。だから、成長する。』— eスポーツ×教育で子どもたちの成長機会を創る。">
+  <meta property="og:image" content="https://www.example.com/assets/ogp.jpg">
+  <meta property="og:url" content="https://www.example.com/">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Performance hints -->
   <link rel="preconnect" href="https://docs.google.com" crossorigin>
   <link rel="preconnect" href="https://www.google.com" crossorigin>
+
   <style>
     :root{
       --accent:#00bbff;
@@ -22,6 +36,10 @@
       font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,Roboto,Arial,sans-serif;
       line-height:1.6; min-height:100%;
     }
+
+    /* ===== Skip link ===== */
+    .skip-link{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+    .skip-link:focus{ left:16px; top:16px; width:auto; height:auto; background:#000; color:#fff; padding:8px 12px; border-radius:8px; z-index:1001; }
 
     /* ===== Header (fixed / translucent / safe-area) ===== */
     header{
@@ -37,9 +55,9 @@
     .brand{display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:16px}
     .brand img{height:34px; width:auto}
 
-    .nav{ display:flex; gap:28px; align-items:center; }
-    .nav a{color:#fff; text-decoration:none; font-weight:600; font-size:16px}
-    .nav a:hover{color:var(--accent)}
+    nav[aria-label="グローバル"]{ display:flex; gap:28px; align-items:center; }
+    nav[aria-label="グローバル"] a{color:#fff; text-decoration:none; font-weight:600; font-size:16px}
+    nav[aria-label="グローバル"] a:hover{color:var(--accent)}
 
     .hamburger{ display:none; color:#fff; background:transparent; border:1px solid rgba(255,255,255,.45); padding:8px 12px; border-radius:10px; font-size:16px; }
 
@@ -79,6 +97,7 @@
     .hero p{ margin:0; color:#fff; text-align:center; font-size:clamp(15px,2.2vw,20px); line-height:1.8; text-shadow:0 2px 6px rgba(0,0,0,.7); }
 
     /* ===== Sections ===== */
+    main{ display:block; }
     section{ scroll-margin-top:calc(var(--header-h) + 12px + env(safe-area-inset-top, 0px)); }
     .section{ padding:80px 20px; background:var(--panel); content-visibility:auto; contain-intrinsic-size: 1px 600px; }
     .container{ max-width:1200px; margin:0 auto; }
@@ -98,14 +117,14 @@
 
     @media (min-width: 1024px){
       .hamburger{ display:none; }
-      .nav{ display:flex; }
+      nav[aria-label="グローバル"]{ display:flex; }
       .mobile-menu{ display:none !important; }
       .subrow{ display:grid; overflow:visible; padding:0; grid-template-columns:repeat(3, 1fr); gap:28px; }
       .subcard{ flex:initial; }
     }
     @media (max-width: 899.98px){
       .hamburger{ display:inline-flex; }
-      .nav{ display:none; }
+      nav[aria-label="グローバル"]{ display:none; }
     }
 
     /* ===== Company block ===== */
@@ -145,11 +164,30 @@
     .btn-entry { background:#444; color:#fff; }
     .btn-contact { background:#1e40ff; color:#fff; }
     .footer-bottom { text-align:center; border-top:1px solid rgba(255,255,255,.2); padding-top:10px; font-size:12px; color:#aaa; }
+
+    @media (prefers-color-scheme: dark){
+      :root{ --panel:#111318; --card:#141821; }
+      body{ color:#eaeaea; }
+      .card{ box-shadow:0 8px 28px rgba(0,0,0,.3); }
+    }
+      /* ===== Timeline (History) ===== */
+    .timeline{ position:relative; margin:0; padding:0 0 0 18px; list-style:none; }
+    .timeline::before{ content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background:#e5eff7; }
+    .timeline-item{ position:relative; margin:0 0 18px 0; padding-left:12px; }
+    .timeline-item::before{ content:""; position:absolute; left:-12px; top:.45em; width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px #eef7ff; }
+    .timeline-item time{ display:inline-block; font-weight:700; margin-right:10px; color:#111; }
+    @media (prefers-color-scheme: dark){
+      .timeline::before{ background:#2b3340; }
+      .timeline-item time{ color:#eaeaea; }
+      .timeline-item::before{ box-shadow:0 0 0 3px rgba(0,187,255,.15); }
+    }
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">本文へスキップ</a>
+
   <!-- ===== Header ===== -->
-  <header>
+  <header role="banner">
     <div class="brand">
       <img src="assets/eSP3.png" alt="eSPロゴ" width="34" height="34" decoding="async" loading="eager">
       <span>株式会社eSP</span>
@@ -174,8 +212,8 @@
   </nav>
 
   <!-- ===== Hero ===== -->
-  <section class="hero">
-    <div class="slides">
+  <section class="hero" aria-label="キービジュアル">
+    <div class="slides" aria-hidden="true">
       <img class="slide-img" src="assets/slide1.jpg" alt="教室の様子" width="1920" height="1080" fetchpriority="high" loading="eager">
       <img class="slide-img" src="assets/slide2.jpg" alt="イベントの様子" width="1920" height="1080" decoding="async" loading="lazy">
       <img class="slide-img" src="assets/slide3.jpg" alt="子どもたちの学び" width="1920" height="1080" decoding="async" loading="lazy">
@@ -183,125 +221,165 @@
     </div>
     <div class="hero-content">
       <h1>楽しい。<br>だから、<span class="blue">成長</span>する。</h1>
-      <p>
-        「「eスポーツ×教育」をテーマに、2019年からeスポーツ教室をスタート。<br>
-2025年4月時点で200教室以上を運営。東京、神奈川、埼玉、千葉、大阪に拡大中。<br>
-『楽しい。だから、成長する』を企業理念とし、子ども大人問わず輝ける舞台を整えています。</p>
+      <p>「eスポーツ×教育」をテーマに、2019年からeスポーツ教室をスタート。<br>
+      2025年4月時点で200教室以上を運営。東京、神奈川、埼玉、千葉、大阪に拡大中。<br>
+      『楽しい。だから、成長する』を企業理念とし、子ども大人問わず輝ける舞台を整えています。</p>
     </div>
   </section>
 
-  <!-- ===== 事業内容 ===== -->
-  <section id="biz" class="section">
-    <div class="container">
-      <div class="card">
-        <h2>事業内容</h2>
-        <div class="subrow">
-          <div class="subcard">
-            <img src="assets/DSC06558.jpg" alt="スクール事業" width="1280" height="720" loading="lazy" decoding="async">
-            <h3>スクール事業</h3>
-            <p>「楽しい。だから、成長する。」企業理念を体現するスクールeSPアカデミーを全国に展開。ゲームを活用し、子どもたちの「楽しい。」を人としての「成長」に結びけています。また、イベントの企画運営を行い、子どもたちが将来大人になる為の成長機会を創ります。</p> 
-          </div>
-          <div class="subcard">
-            <img src="assets/DSC04725.jpg" alt="新規事業" width="1280" height="720" loading="lazy" decoding="async"> 
-            <h3>新規事業</h3> 
-            <p>ゲームだけでなく、様々な舞台で子どもたちの成長できる機会を創るべく、様々な事業を展開。チアダンス事業やメジャーリーガーをアドバイザーに招き、全く新しい野球事業を展開していきます。</p> 
-          </div>
-          <div class="subcard">
-            <img src="assets/esports.png" alt="eスポーツ大会運営" width="1280" height="720" loading="lazy" decoding="async"> 
-            <h3>eスポーツ大会運営</h3> 
-            <p>小中学生に向けたeスポーツ大会を企画、運営。また、当社独自のノウハウでeスポーツのさらなる発展に貢献し、国内eスポーツ事業を盛り上げていきます。</p> 
+  <main id="main" role="main">
+    <!-- ===== 事業内容 ===== -->
+    <section id="biz" class="section" aria-labelledby="biz-heading">
+      <div class="container">
+        <div class="card">
+          <h2 id="biz-heading">事業内容</h2>
+          <div class="subrow">
+            <article class="subcard">
+              <img src="assets/DSC06558.jpg" alt="スクール事業" width="1280" height="720" loading="lazy" decoding="async">
+              <h3>スクール事業</h3>
+              <p>「楽しい。だから、成長する。」の理念を体現するスクール eSPアカデミーを全国に展開。ゲームを活用し、子どもたちの「楽しい。」を人としての「成長」に結びつけます。イベントの企画運営により、将来へとつながる成長機会を創出します。</p>
+            </article>
+            <article class="subcard">
+              <img src="assets/DSC04725.jpg" alt="新規事業" width="1280" height="720" loading="lazy" decoding="async">
+              <h3>新規事業</h3>
+              <p>ゲーム以外の分野でも、子どもたちが成長できる舞台を拡大。チアダンス事業や、メジャーリーガーをアドバイザーに迎えた新しい野球事業などを展開していきます。</p>
+            </article>
+            <article class="subcard">
+              <img src="assets/esports.png" alt="eスポーツ大会運営" width="1280" height="720" loading="lazy" decoding="async">
+              <h3>eスポーツ大会運営</h3>
+              <p>小中学生に向けたeスポーツ大会を企画・運営。独自のノウハウで国内eスポーツの発展に貢献します。</p>
+            </article>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== 企業情報 ===== -->
-  <section id="company" class="section">
-    <div class="container">
-      <div class="card">
-        <h2>企業情報</h2>
+    <!-- ===== ヒストリー ===== -->
+<section id="history" class="section" aria-labelledby="history-heading">
+<div class="container">
+<div class="card">
+<h2 id="history-heading">ヒストリー</h2>
+<ol class="timeline" role="list">
+<li class="timeline-item" role="listitem">
+<time datetime="2019">2019</time>
+<div class="timeline-text">・東京都練馬にて「eスポーツ教室eSPアカデミー」を設立</div>
+</li>
+<li class="timeline-item" role="listitem">
+<time datetime="2020">2020</time>
+<div class="timeline-text">
+・会員数1,000名 / 教室数29達成 / オンラインスクール開校<br>
+・eスポーツ大会・合宿事業スタート
+</div>
+</li>
+<li class="timeline-item" role="listitem">
+<time datetime="2021">2021</time>
+<div class="timeline-text">・会員数2,000名 / 教室数71達成</div>
+</li>
+<li class="timeline-item" role="listitem">
+<time datetime="2022">2022</time>
+<div class="timeline-text">・会員数3,000名 / 教室数100達成</div>
+</li>
+<li class="timeline-item" role="listitem">
+<time datetime="2023">2023</time>
+<div class="timeline-text">・会員数4,300名 / 教室数170達成 / 管理部門設立</div>
+</li>
+<li class="timeline-item" role="listitem">
+<time datetime="2025">2025</time>
+<div class="timeline-text">・会員数5,419名 / 教室数200へ</div>
+</li>
+</ol>
+</div>
+</div>
+</section>
 
-        <!-- 本社：写真 + Googleマップ -->
-        <div class="company-info">
-          <div class="company-media">
-            <img src="assets/office.jpg" alt="本社外観" width="1280" height="720" loading="lazy" decoding="async">
+    <!-- ===== 企業情報 ===== -->
+    <section id="company" class="section" aria-labelledby="company-heading">
+      <div class="container">
+        <div class="card">
+          <h2 id="company-heading">企業情報</h2>
+
+          <!-- 本社：写真 + Googleマップ -->
+          <div class="company-info">
+            <div class="company-media">
+              <img src="assets/office.jpg" alt="本社外観" width="1280" height="720" loading="lazy" decoding="async">
+            </div>
+            <div class="company-media">
+              <iframe
+                title="本社所在地の地図"
+                src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed"
+                width="100%" height="320" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
           </div>
-          <div class="company-media">
-            <iframe
-              src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed"
-              width="100%" height="320" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+          <!-- 支部一覧（横スクロール）：各カードに 画像＋Googleマップ埋め込み -->
+          <div class="branches">
+            <h3 style="margin:24px 0 12px; color: var(--accent);">支部一覧</h3>
+            <div class="branch-row" role="list">
+              <!-- 東京支部 -->
+              <article class="branch-card" role="listitem">
+                <div class="branch-media"><img src="assets/tokyo.jpg" alt="東京支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+                <iframe class="branch-map" title="東京支部の地図" src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h4>東京支部</h4>
+                <p class="addr">（住所を入力）</p>
+                <a class="branch-link" href="https://maps.app.goo.gl/Zfed8Ej4bbT8wJgM7" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
+              </article>
+              <!-- 神奈川支部 -->
+              <article class="branch-card" role="listitem">
+                <div class="branch-media"><img src="assets/kanagawa.jpg" alt="神奈川支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+                <iframe class="branch-map" title="神奈川支部の地図" src="https://www.google.com/maps?q=%E7%A5%9E%E5%A5%88%E5%B7%9D%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h4>神奈川支部</h4>
+                <p class="addr">（住所を入力）</p>
+                <a class="branch-link" href="https://maps.app.goo.gl/DDsjPxXpnPcveXxP8" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
+              </article>
+              <!-- 埼玉支部 -->
+              <article class="branch-card" role="listitem">
+                <div class="branch-media"><img src="assets/saitama.jpg" alt="埼玉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+                <iframe class="branch-map" title="埼玉支部の地図" src="https://www.google.com/maps?q=%E5%9F%BC%E7%8E%89%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h4>埼玉支部</h4>
+                <p class="addr">（住所を入力）</p>
+                <a class="branch-link" href="https://maps.app.goo.gl/6Y7BF4mqppcgHCHJ6" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
+              </article>
+              <!-- 千葉支部 -->
+              <article class="branch-card" role="listitem">
+                <div class="branch-media"><img src="assets/chiba.jpg" alt="千葉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+                <iframe class="branch-map" title="千葉支部の地図" src="https://www.google.com/maps?q=%E5%8D%83%E8%91%89%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h4>千葉支部</h4>
+                <p class="addr">（住所を入力）</p>
+                <a class="branch-link" href="https://maps.app.goo.gl/gAKWNsWUWVXpqqFU7" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
+              </article>
+              <!-- 大阪支部 -->
+              <article class="branch-card" role="listitem">
+                <div class="branch-media"><img src="assets/osaka.jpg" alt="大阪支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
+                <iframe class="branch-map" title="大阪支部の地図" src="https://www.google.com/maps?q=%E5%A4%A7%E9%98%AA%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <h4>大阪支部</h4>
+                <p class="addr">（住所を入力）</p>
+                <a class="branch-link" href="https://maps.app.goo.gl/d5Q8eAk8Ps8tnHgYA" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
+              </article>
+            </div>
           </div>
+
         </div>
+      </div>
+    </section>
 
-        <!-- 支部一覧（横スクロール）：各カードに 画像＋Googleマップ埋め込み -->
-        <div class="branches">
-          <h3 style="margin:24px 0 12px; color: var(--accent);">支部一覧</h3>
-          <div class="branch-row">
-            <!-- 東京支部 -->
-            <article class="branch-card">
-              <div class="branch-media"><img src="assets/tokyo.jpg" alt="東京支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-              <iframe class="branch-map" src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <h4>東京支部</h4>
-              <p class="addr"></p>
-              <a class="branch-link" href="https://maps.app.goo.gl/Zfed8Ej4bbT8wJgM7" target="_blank" rel="noopener"></a>
-            </article>
-            <!-- 神奈川支部 -->
-            <article class="branch-card">
-              <div class="branch-media"><img src="assets/kanagawa.jpg" alt="神奈川支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-              <iframe class="branch-map" src="https://www.google.com/maps?q=%E7%A5%9E%E5%A5%88%E5%B7%9D%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <h4>神奈川支部</h4>
-              <p class="addr"></p>
-              <a class="branch-link" href="https://maps.app.goo.gl/DDsjPxXpnPcveXxP8" target="_blank" rel="noopener"></a>
-            </article>
-            <!-- 埼玉支部 -->
-            <article class="branch-card">
-              <div class="branch-media"><img src="assets/saitama.jpg" alt="埼玉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-              <iframe class="branch-map" src="https://www.google.com/maps?q=%E5%9F%BC%E7%8E%89%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <h4>埼玉支部</h4>
-              <p class="addr"></p>
-              <a class="branch-link" href="https://maps.app.goo.gl/6Y7BF4mqppcgHCHJ6" target="_blank" rel="noopener"></a>
-            </article>
-            <!-- 千葉支部 -->
-            <article class="branch-card">
-              <div class="branch-media"><img src="assets/chiba.jpg" alt="千葉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-              <iframe class="branch-map" src="https://www.google.com/maps?q=%E5%8D%83%E8%91%89%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <h4>千葉支部</h4>
-              <p class="addr"></p>
-              <a class="branch-link" href="https://maps.app.goo.gl/gAKWNsWUWVXpqqFU7" target="_blank" rel="noopener"></a>
-            </article>
-            <!-- 大阪支部 -->
-            <article class="branch-card">
-              <div class="branch-media"><img src="assets/osaka.jpg" alt="大阪支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-              <iframe class="branch-map" src="https://www.google.com/maps?q=%E5%A4%A7%E9%98%AA%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-              <h4>大阪支部</h4>
-              <p class="addr"></p>
-              <a class="branch-link" href="https://maps.app.goo.gl/d5Q8eAk8Ps8tnHgYA" target="_blank" rel="noopener"></a>
-            </article>
-          </div>
+    <!-- ===== 採用情報 ===== -->
+    <section id="recruit" class="section" aria-labelledby="recruit-heading">
+      <div class="container">
+        <div class="card">
+          <h2 id="recruit-heading">採用情報</h2>
+          <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
+          <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfzWGjvPrbIwzeqy8b5odMAMC-5VTD5ilT5Oty0YsJMIwGJjw/viewform" target="_blank" rel="noopener noreferrer">応募・お問い合わせはこちら（Googleフォーム）</a></p>
+          <p>メール：<a href="mailto:info@esp-academy.jp">info@esp-academy.jp</a><br>eSPアカデミー</p>
         </div>
-
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- ===== 採用情報 ===== -->
-  <section id="recruit" class="section">
-    <div class="container">
-      <div class="card">
-        <h2>採用情報</h2>
-        <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
-        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfzWGjvPrbIwzeqy8b5odMAMC-5VTD5ilT5Oty0YsJMIwGJjw/viewform">応募・お問い合わせはこちら</a></p>
-        <p>メール：info@esp-academy.jp<br>eSPアカデミー</p>
-      </div>
-    </div>
-  </section>
-
-    <!-- ===== Footer ===== -->
-  <footer class="site-footer">
+  <!-- ===== Footer / Contact ===== -->
+  <footer class="site-footer" id="contact" role="contentinfo">
     <div class="footer-container">
       <div class="footer-col company">
-        <img src="assets/eSP3.png" alt="eSPロゴ" class="footer-logo">
+        <img src="assets/eSP3.png" alt="eSPロゴ" class="footer-logo" width="40" height="40" loading="lazy" decoding="async">
         <p><strong>株式会社eSP</strong></p>
         <p>〒160-0023<br>東京都新宿区西新宿3-9-7<br>フロンティア新宿タワーオフィス216</p>
         <p>事業内容: スクール事業 / イベント企画・運営</p>
@@ -320,7 +398,7 @@
         </ul>
       </div>
       <div class="footer-col sns">
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener" class="yt-link">
+        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="yt-link">
           <img src="assets/youtube.svg" alt="YouTube" width="28" height="20"> eSP公式チャンネル
         </a>
         <div class="footer-buttons">
@@ -334,22 +412,60 @@
     </div>
   </footer>
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "株式会社eSP",
+    "url": "https://www.example.com/",
+    "logo": "https://www.example.com/assets/eSP3.png",
+    "sameAs": [
+      "https://www.youtube.com/"
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "postalCode": "160-0023",
+      "addressRegion": "東京都",
+      "addressLocality": "新宿区西新宿",
+      "streetAddress": "3-9-7 フロンティア新宿タワーオフィス216"
+    },
+    "contactPoint": [{
+      "@type": "ContactPoint",
+      "contactType": "customer support",
+      "email": "info@esp-academy.jp",
+      "availableLanguage": ["ja"]
+    }]
+  }
+  </script>
+
   <script>
     // 年号
     document.getElementById('y').textContent = new Date().getFullYear();
 
-    // ハンバーガーの開閉 & a11y
+    // ハンバーガーの開閉 & a11y（Escapeで閉じる・フォーカス制御）
     const btn = document.getElementById('menuBtn');
     const menu = document.getElementById('mobileMenu');
+    let lastFocus = null;
+
     const setMenu = (open) => {
       if (!menu) return;
       menu.hidden = !open;
-      if (open) { menu.removeAttribute('inert'); } else { menu.setAttribute('inert', ''); }
+      if (open) {
+        menu.removeAttribute('inert');
+        lastFocus = document.activeElement;
+        const firstLink = menu.querySelector('a');
+        setTimeout(() => firstLink?.focus(), 0);
+      } else {
+        menu.setAttribute('inert', '');
+        btn?.focus();
+      }
       btn?.setAttribute('aria-expanded', String(open));
     };
+
     btn?.addEventListener('click', () => setMenu(menu?.hidden));
     menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
     addEventListener('resize', () => { if (innerWidth >= 900) setMenu(false); });
+    addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
   </script>
 </body>
 </html>
