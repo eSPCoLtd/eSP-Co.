@@ -8,22 +8,7 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <title>株式会社eSP｜eSPアカデミー</title>
   <meta name="description" content="株式会社eSPは『楽しい。だから、成長する。』を理念に、eスポーツ×教育のスクール事業やイベント運営を展開しています。" />
-  <link rel="canonical" href="https://www.example.com/" />
   <link rel="icon" href="assets/eSP3.png" />
-  <link rel="apple-touch-icon" href="assets/eSP3.png" />
-  <link rel="manifest" href="/site.webmanifest" />
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="株式会社eSP">
-  <meta property="og:title" content="株式会社eSP｜eSPアカデミー">
-  <meta property="og:description" content="『楽しい。だから、成長する。』— eスポーツ×教育で子どもたちの成長機会を創る。">
-  <meta property="og:image" content="https://www.example.com/assets/ogp.jpg">
-  <meta property="og:url" content="https://www.example.com/">
-  <meta name="twitter:card" content="summary_large_image">
-
-  <!-- Performance hints -->
-  <link rel="preconnect" href="https://docs.google.com" crossorigin>
-  <link rel="preconnect" href="https://www.google.com" crossorigin>
-
   <style>
     :root{
       --accent:#00bbff;
@@ -31,84 +16,65 @@
       --panel:#f7f9fb;
       --card:#ffffff;
     }
-    html,body{
-      margin:0; color:#111;
-      font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,Roboto,Arial,sans-serif;
-      line-height:1.6; min-height:100%;
-    }
+    html,body{ margin:0; color:#111; font-family:"Segoe UI","Hiragino Kaku Gothic ProN","Noto Sans JP",system-ui,Roboto,Arial,sans-serif; line-height:1.6; }
 
-    /* ===== Skip link ===== */
-    .skip-link{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-    .skip-link:focus{ left:16px; top:16px; width:auto; height:auto; background:#000; color:#fff; padding:8px 12px; border-radius:8px; z-index:1001; }
-
-    /* ===== Header (fixed / translucent / safe-area) ===== */
-    header{
-      position:fixed; inset:0 0 auto 0;
-      height:calc(var(--header-h) + env(safe-area-inset-top, 0px));
-      padding:env(safe-area-inset-top, 0px) 16px 0;
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      background:rgba(0,0,0,.55);
-      -webkit-backdrop-filter:saturate(160%) blur(4px); backdrop-filter:saturate(160%) blur(4px);
-      z-index:1000; box-sizing:border-box; border-bottom:1px solid rgba(255,255,255,.08);
-    }
-    @supports not (backdrop-filter: blur(4px)) { header{ background:#111; } }
+    /* ===== Header ===== */
+    header{ position:fixed; inset:0 0 auto 0; height:calc(var(--header-h) + env(safe-area-inset-top, 0px)); padding:env(safe-area-inset-top, 0px) 16px 0; display:flex; align-items:center; justify-content:space-between; gap:12px; background:rgba(0,0,0,.55); -webkit-backdrop-filter:saturate(160%) blur(4px); backdrop-filter:saturate(160%) blur(4px); z-index:1000; border-bottom:1px solid rgba(255,255,255,.08); }
     .brand{display:flex; align-items:center; gap:10px; color:#fff; font-weight:700; font-size:16px}
     .brand img{height:34px; width:auto}
-
     nav[aria-label="グローバル"]{ display:flex; gap:28px; align-items:center; }
-    nav[aria-label="グローバル"] a{color:#fff; text-decoration:none; font-weight:600; font-size:16px}
-    nav[aria-label="グローバル"] a:hover{color:var(--accent)}
-
+    nav[aria-label="グローバル"] a{ color:#fff; text-decoration:none; font-weight:600; font-size:16px }
+    nav[aria-label="グローバル"] a:hover{ color:var(--accent) }
     .hamburger{ display:none; color:#fff; background:transparent; border:1px solid rgba(255,255,255,.45); padding:8px 12px; border-radius:10px; font-size:16px; }
 
-    .mobile-menu{
-      position:fixed; top:calc(var(--header-h) + env(safe-area-inset-top, 0px));
-      left:0; right:0; background:rgba(0,0,0,.9);
-      -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
-      display:none; flex-direction:column; gap:12px; padding:16px; z-index:999;
-    }
+    /* ===== Mobile menu (FIX applied) ===== */
+    .mobile-menu{ position:fixed; top:calc(var(--header-h) + env(safe-area-inset-top, 0px)); left:0; right:0; background:rgba(0,0,0,.9); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); display:flex; flex-direction:column; gap:12px; padding:16px; z-index:999; }
     .mobile-menu[hidden]{ display:none !important; }
     .mobile-menu a{ color:#fff; text-decoration:none; font-weight:600; font-size:18px; padding:10px 6px; border-radius:8px; }
     .mobile-menu a:hover{ background:rgba(255,255,255,.08); color:var(--accent) }
 
-    /* ===== Hero (full-viewport slideshow, motion-safe) ===== */
-    .hero{
-      position:relative; min-height:100dvh;
-      padding-top:calc(var(--header-h) + env(safe-area-inset-top, 0px));
-      display:flex; align-items:center; justify-content:center;
-      color:#fff; background:#000; overflow:hidden;
-    }
-    .slides{ position:absolute; inset:0; z-index:0; pointer-events:none; }
-    .slide-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; opacity:0; transform:scale(1.06); }
+    /* ===== Hero ===== */
+    .hero{ position:relative; isolation:isolate; min-height:100dvh; padding-top:calc(var(--header-h) + env(safe-area-inset-top, 0px)); display:flex; align-items:center; justify-content:center; color:#fff; background:#000; overflow:hidden; }
+    /* 読みやすさ用の薄いオーバーレイ */
+    
+    .slides{ position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+    .slide-img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; opacity:0; transform:scale(1.06); will-change:opacity, transform; backface-visibility:hidden; }
     .slide-img:nth-child(1){ animation:fadeZoomIn 20s infinite ease-in-out 0s; }
     .slide-img:nth-child(2){ animation:fadeZoomOut 20s infinite ease-in-out 5s; }
     .slide-img:nth-child(3){ animation:fadeZoomIn 20s infinite ease-in-out 10s; }
     .slide-img:nth-child(4){ animation:fadeZoomOut 20s infinite ease-in-out 15s; }
     @keyframes fadeZoomIn{ 0%{opacity:0; transform:scale(1.06);} 5%{opacity:1; transform:scale(1.06);} 25%{opacity:1; transform:scale(1.12);} 30%{opacity:0; transform:scale(1.12);} 100%{opacity:0; transform:scale(1.12);} }
     @keyframes fadeZoomOut{ 0%{opacity:0; transform:scale(1.12);} 5%{opacity:1; transform:scale(1.12);} 25%{opacity:1; transform:scale(1.04);} 30%{opacity:0; transform:scale(1.04);} 100%{opacity:0; transform:scale(1.04);} }
-    @media (prefers-reduced-motion: reduce){
-      .slide-img{ animation:none !important; opacity:0 !important; }
-      .slide-img:nth-child(1){ opacity:1 !important; }
-    }
+    @media (prefers-reduced-motion: reduce){ .slide-img{ animation:none !important; opacity:0 !important; } .slide-img:nth-child(1){ opacity:1 !important; } }
 
+    /* テキストは常に最前面 & アニメ対象外 */
     .hero-content{ position:relative; z-index:2; width:100%; max-width:900px; padding:0 20px; display:flex; flex-direction:column; align-items:center; text-shadow:0 3px 8px rgba(0,0,0,.8); }
+    .hero-content, .hero-content *{ animation:none !important; opacity:1 !important; }
+
+    /* 文字サイズは完成版のまま */
     .hero h1{ margin:0 0 18px; width:100%; max-width:820px; text-align:left; font-size:clamp(40px,8vw,88px); line-height:1.2; }
     .hero h1 .blue{ color:#1e90ff; }
     .hero p{ margin:0; color:#fff; text-align:center; font-size:clamp(15px,2.2vw,20px); line-height:1.8; text-shadow:0 2px 6px rgba(0,0,0,.7); }
 
-    /* ===== Sections ===== */
+    /* ===== スマホ・縦長での自動画角調整（被写体寄せ） ===== */
+    @media (max-width: 900px){
+      .slide-img:nth-child(1){ object-position:center 30%; }
+      .slide-img:nth-child(2){ object-position:center 40%; }
+      .slide-img:nth-child(3){ object-position:center 35%; }
+      .slide-img:nth-child(4){ object-position:center 45%; }
+    }
+    @media (max-aspect-ratio: 3/4){ .slide-img{ object-position:center 35%; } }
+    @media (min-aspect-ratio: 21/9){ .slide-img{ object-position:center 50%; } }
+
+    /* ===== Sections & cards ===== */
     main{ display:block; }
     section{ scroll-margin-top:calc(var(--header-h) + 12px + env(safe-area-inset-top, 0px)); }
-    .section{ padding:80px 20px; background:var(--panel); content-visibility:auto; contain-intrinsic-size: 1px 600px; }
+    .section{ padding:80px 20px; background:var(--panel); }
     .container{ max-width:1200px; margin:0 auto; }
     .card{ background:var(--card); border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.08); padding:32px; margin-bottom:40px; }
     .card h2{ margin:0 0 16px; color:var(--accent) }
 
-    .subrow{
-      display:flex; gap:16px; margin-top:8px;
-      overflow-x:auto; padding:6px 4px 10px;
-      scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-    }
+    .subrow{ display:flex; gap:16px; margin-top:8px; overflow-x:auto; padding:6px 4px 10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
     .subrow::-webkit-scrollbar{ height:8px }
     .subrow::-webkit-scrollbar-thumb{ background:#d5eefd; border-radius:8px }
     .subcard{ flex:0 0 85%; background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:16px; text-align:center; scroll-snap-align:start; }
@@ -122,31 +88,32 @@
       .subrow{ display:grid; overflow:visible; padding:0; grid-template-columns:repeat(3, 1fr); gap:28px; }
       .subcard{ flex:initial; }
     }
-    @media (max-width: 899.98px){
-      .hamburger{ display:inline-flex; }
-      nav[aria-label="グローバル"]{ display:none; }
-    }
+    @media (max-width: 899.98px){ .hamburger{ display:inline-flex; } nav[aria-label="グローバル"]{ display:none; } }
 
     /* ===== Company block ===== */
     .company-info{ display:grid; gap:24px }
-    .company-media img, .company-media iframe{
-      width:100%; height:320px; object-fit:cover; border-radius:12px; display:block;
-    }
+    .company-media img, .company-media iframe{ width:100%; height:320px; object-fit:cover; border-radius:12px; display:block; }
     @media (min-width:800px){ .company-info{ grid-template-columns:1fr 1fr } }
 
-    /* ===== Branches (always horizontal scroll) ===== */
+    /* ===== Branches ===== */
     .branch-row{ display:flex; gap:16px; overflow-x:auto; padding:6px 2px 10px; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; }
     .branch-row::-webkit-scrollbar{ height:8px }
     .branch-row::-webkit-scrollbar-thumb{ background:#d5eefd; border-radius:8px }
     .branch-card{ flex:0 0 260px; background:#fff; border:1px solid #e8e8e8; border-radius:12px; padding:16px; scroll-snap-align:start; }
     .branch-card h4{ margin:10px 0 6px; font-size:16px; color:#111 }
     .branch-card .addr{ margin:0 6px 8px 0; color:#666; font-size:14px }
-
-    /* 画像と地図を同サイズで（16:9） */
     .branch-media, .branch-map{ display:block; width:100%; aspect-ratio:16/9; border-radius:10px; overflow:hidden; border:1px solid #e8e8e8; }
     .branch-media img{ width:100%; height:100%; object-fit:cover; display:block; }
     .branch-link{ color:var(--accent); text-decoration:none; font-weight:700; font-size:13px }
     .branch-link:hover{ text-decoration:underline; }
+
+    /* ===== Timeline ===== */
+    .timeline{ position:relative; margin:0; padding:0 0 0 18px; list-style:none; }
+    .timeline::before{ content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background:#e5eff7; }
+    .timeline-item{ position:relative; margin:0 0 18px 0; padding-left:12px; display:flex; align-items:flex-start; gap:8px; }
+    .timeline-item::before{ content:""; position:absolute; left:-12px; top:.45em; width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px #eef7ff; }
+    .timeline-item time{ flex:0 0 60px; font-weight:700; margin-right:10px; color:#111; }
+    .timeline-text{ flex:1; text-indent:0; }
 
     /* ===== Footer ===== */
     .site-footer { background:#2c2f35; color:#fff; padding:40px 20px 20px; font-size:14px; }
@@ -157,35 +124,18 @@
     .footer-col ul a { color:#fff; text-decoration:none; }
     .footer-col ul a:hover { color:var(--accent); }
     .footer-logo { height:40px; margin-bottom:10px; }
-    .yt-link { display:flex; align-items:center; gap:8px; color:#fff; text-decoration:none; font-weight:600; }
-    .yt-link:hover { color:#ff0000; }
-    .footer-buttons { display:flex; gap:10px; margin-top:20px; }
-    .btn-entry, .btn-contact { padding:10px 18px; border-radius:20px; text-decoration:none; font-weight:700; font-size:14px; text-align:center; }
-    .btn-entry { background:#444; color:#fff; }
-    .btn-contact { background:#1e40ff; color:#fff; }
-    .footer-bottom { text-align:center; border-top:1px solid rgba(255,255,255,.2); padding-top:10px; font-size:12px; color:#aaa; }
+    .footer-buttons { display:flex; gap:10px; margin-top:20px; flex-wrap:wrap; }
+    .btn-sns, .btn-contact { padding:10px 18px; border-radius:20px; text-decoration:none; font-weight:700; font-size:14px; text-align:center; color:#fff; }
+    .btn-sns:hover, .btn-contact:hover { opacity:.9; }
+    .btn-x{ background:#000; }
+    .btn-ig{ background:linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .btn-fb{ background:#1877F2; }
+    .btn-contact{ background:#1e40ff; }
 
-    @media (prefers-color-scheme: dark){
-      :root{ --panel:#111318; --card:#141821; }
-      body{ color:#eaeaea; }
-      .card{ box-shadow:0 8px 28px rgba(0,0,0,.3); }
-    }
-      /* ===== Timeline (History) ===== */
-    .timeline{ position:relative; margin:0; padding:0 0 0 18px; list-style:none; }
-    .timeline::before{ content:""; position:absolute; left:8px; top:0; bottom:0; width:2px; background:#e5eff7; }
-    .timeline-item{ position:relative; margin:0 0 18px 0; padding-left:12px; }
-    .timeline-item::before{ content:""; position:absolute; left:-12px; top:.45em; width:10px; height:10px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 3px #eef7ff; }
-    .timeline-item time{ display:inline-block; font-weight:700; margin-right:10px; color:#111; }
-    @media (prefers-color-scheme: dark){
-      .timeline::before{ background:#2b3340; }
-      .timeline-item time{ color:#eaeaea; }
-      .timeline-item::before{ box-shadow:0 0 0 3px rgba(0,187,255,.15); }
-    }
+    @media (prefers-color-scheme: dark){ :root{ --panel:#111318; --card:#141821; } body{ color:#eaeaea; } .card{ box-shadow:0 8px 28px rgba(0,0,0,.3); } }
   </style>
 </head>
 <body>
-  <a href="#main" class="skip-link">本文へスキップ</a>
-
   <!-- ===== Header ===== -->
   <header role="banner">
     <div class="brand">
@@ -197,18 +147,16 @@
       <a href="#biz">事業内容</a>
       <a href="#company">企業情報</a>
       <a href="#recruit">採用情報</a>
-      <a href="#contact">お問い合わせ</a>
     </nav>
 
     <button class="hamburger" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="メニューを開閉">☰ メニュー</button>
   </header>
 
-  <!-- Mobile Menu -->
+  <!-- Mobile Menu (no お問い合わせ) -->
   <nav class="mobile-menu" id="mobileMenu" aria-label="モバイルメニュー" hidden inert>
     <a href="#biz">事業内容</a>
     <a href="#company">企業情報</a>
     <a href="#recruit">採用情報</a>
-    <a href="#contact">お問い合わせ</a>
   </nav>
 
   <!-- ===== Hero ===== -->
@@ -255,104 +203,85 @@
     </section>
 
     <!-- ===== ヒストリー ===== -->
-<section id="history" class="section" aria-labelledby="history-heading">
-<div class="container">
-<div class="card">
-<h2 id="history-heading">ヒストリー</h2>
-<ol class="timeline" role="list">
-<li class="timeline-item" role="listitem">
-<time datetime="2019">2019</time>
-<div class="timeline-text">・東京都練馬にて「eスポーツ教室eSPアカデミー」を設立</div>
-</li>
-<li class="timeline-item" role="listitem">
-<time datetime="2020">2020</time>
-<div class="timeline-text">
-・会員数1,000名 / 教室数29達成 / オンラインスクール開校<br>
-・eスポーツ大会・合宿事業スタート
-</div>
-</li>
-<li class="timeline-item" role="listitem">
-<time datetime="2021">2021</time>
-<div class="timeline-text">・会員数2,000名 / 教室数71達成</div>
-</li>
-<li class="timeline-item" role="listitem">
-<time datetime="2022">2022</time>
-<div class="timeline-text">・会員数3,000名 / 教室数100達成</div>
-</li>
-<li class="timeline-item" role="listitem">
-<time datetime="2023">2023</time>
-<div class="timeline-text">・会員数4,300名 / 教室数170達成 / 管理部門設立</div>
-</li>
-<li class="timeline-item" role="listitem">
-<time datetime="2025">2025</time>
-<div class="timeline-text">・会員数5,419名 / 教室数200へ</div>
-</li>
-</ol>
-</div>
-</div>
-</section>
+    <section id="history" class="section" aria-labelledby="history-heading">
+      <div class="container">
+        <div class="card">
+          <h2 id="history-heading">ヒストリー</h2>
+          <ol class="timeline" role="list">
+            <li class="timeline-item" role="listitem">
+              <time datetime="2019">2019</time>
+              <div class="timeline-text">・東京都練馬にて「eスポーツ教室eSPアカデミー」を設立</div>
+            </li>
+            <li class="timeline-item" role="listitem">
+              <time datetime="2020">2020</time>
+              <div class="timeline-text">・会員数1,000名 / 教室数29達成 / オンラインスクール開校<br>・eスポーツ大会・合宿事業スタート</div>
+            </li>
+            <li class="timeline-item" role="listitem">
+              <time datetime="2021">2021</time>
+              <div class="timeline-text">・会員数2,000名 / 教室数71達成</div>
+            </li>
+            <li class="timeline-item" role="listitem">
+              <time datetime="2022">2022</time>
+              <div class="timeline-text">・会員数3,000名 / 教室数100達成</div>
+            </li>
+            <li class="timeline-item" role="listitem">
+              <time datetime="2023">2023</time>
+              <div class="timeline-text">・会員数4,300名 / 教室数170達成 / 管理部門設立</div>
+            </li>
+            <li class="timeline-item" role="listitem">
+              <time datetime="2025">2025</time>
+              <div class="timeline-text">・会員数5,419名 / 教室数200へ</div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
 
     <!-- ===== 企業情報 ===== -->
     <section id="company" class="section" aria-labelledby="company-heading">
       <div class="container">
         <div class="card">
           <h2 id="company-heading">企業情報</h2>
-
-          <!-- 本社：写真 + Googleマップ -->
           <div class="company-info">
             <div class="company-media">
               <img src="assets/office.jpg" alt="本社外観" width="1280" height="720" loading="lazy" decoding="async">
             </div>
             <div class="company-media">
-              <iframe
-                title="本社所在地の地図"
-                src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed"
-                width="100%" height="320" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <iframe title="本社所在地の地図" src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%96%B0%E5%AE%BF%E5%8C%BA%E8%A5%BF%E6%96%B0%E5%AE%BF3-9-7%20%E3%83%95%E3%83%AD%E3%83%B3%E3%83%86%E3%82%A3%E3%82%A2%E6%96%B0%E5%AE%BF%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%82%AA%E3%83%95%E3%82%A3%E3%82%B9216&output=embed" width="100%" height="320" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
           </div>
 
-          <!-- 支部一覧（横スクロール）：各カードに 画像＋Googleマップ埋め込み -->
           <div class="branches">
             <h3 style="margin:24px 0 12px; color: var(--accent);">支部一覧</h3>
             <div class="branch-row" role="list">
-              <!-- 東京支部 -->
               <article class="branch-card" role="listitem">
                 <div class="branch-media"><img src="assets/tokyo.jpg" alt="東京支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-                <iframe class="branch-map" title="東京支部の地図" src="https://www.google.com/maps?q=%E6%9D%B1%E4%BA%AC%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h4>東京支部</h4>
-                <p class="addr">（住所を入力）</p>
+                <p class="addr">練馬区豊玉中3-16-13　eSPアカデミー練馬校</p>
                 <a class="branch-link" href="https://maps.app.goo.gl/Zfed8Ej4bbT8wJgM7" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
               </article>
-              <!-- 神奈川支部 -->
               <article class="branch-card" role="listitem">
                 <div class="branch-media"><img src="assets/kanagawa.jpg" alt="神奈川支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-                <iframe class="branch-map" title="神奈川支部の地図" src="https://www.google.com/maps?q=%E7%A5%9E%E5%A5%88%E5%B7%9D%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h4>神奈川支部</h4>
-                <p class="addr">（住所を入力）</p>
+                <p class="addr">横浜市都筑区荏田南5-23-33-203　eSPアカデミー都筑校</p>
                 <a class="branch-link" href="https://maps.app.goo.gl/DDsjPxXpnPcveXxP8" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
               </article>
-              <!-- 埼玉支部 -->
               <article class="branch-card" role="listitem">
                 <div class="branch-media"><img src="assets/saitama.jpg" alt="埼玉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-                <iframe class="branch-map" title="埼玉支部の地図" src="https://www.google.com/maps?q=%E5%9F%BC%E7%8E%89%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h4>埼玉支部</h4>
-                <p class="addr">（住所を入力）</p>
+                <p class="addr">さいたま市浦和区北浦和4-3-11-3F　eSPアカデミー北浦和校</p>
                 <a class="branch-link" href="https://maps.app.goo.gl/6Y7BF4mqppcgHCHJ6" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
               </article>
-              <!-- 千葉支部 -->
               <article class="branch-card" role="listitem">
                 <div class="branch-media"><img src="assets/chiba.jpg" alt="千葉支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-                <iframe class="branch-map" title="千葉支部の地図" src="https://www.google.com/maps?q=%E5%8D%83%E8%91%89%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h4>千葉支部</h4>
-                <p class="addr">（住所を入力）</p>
+                <p class="addr">千葉市中央区中央3-13-11-4F　eSPアカデミー千葉中央校</p>
                 <a class="branch-link" href="https://maps.app.goo.gl/gAKWNsWUWVXpqqFU7" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
               </article>
-              <!-- 大阪支部 -->
               <article class="branch-card" role="listitem">
                 <div class="branch-media"><img src="assets/osaka.jpg" alt="大阪支部 事務所写真" width="640" height="360" loading="lazy" decoding="async"></div>
-                <iframe class="branch-map" title="大阪支部の地図" src="https://www.google.com/maps?q=%E5%A4%A7%E9%98%AA%E6%94%AF%E9%83%A8&output=embed&z=16" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 <h4>大阪支部</h4>
-                <p class="addr">（住所を入力）</p>
+                <p class="addr">大阪市北区中津3-3-17-3F　eSPアカデミー中津校</p>
                 <a class="branch-link" href="https://maps.app.goo.gl/d5Q8eAk8Ps8tnHgYA" target="_blank" rel="noopener noreferrer">Googleマップで開く</a>
               </article>
             </div>
@@ -369,7 +298,7 @@
           <h2 id="recruit-heading">採用情報</h2>
           <p>株式会社eSPでは、子どもたちの成長を支える仲間を募集しています。<br>講師・運営スタッフ・イベント企画など幅広いポジションで活躍可能です。</p>
           <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfzWGjvPrbIwzeqy8b5odMAMC-5VTD5ilT5Oty0YsJMIwGJjw/viewform" target="_blank" rel="noopener noreferrer">応募・お問い合わせはこちら（Googleフォーム）</a></p>
-          <p>メール：<a href="mailto:info@esp-academy.jp">info@esp-academy.jp</a><br>eSPアカデミー</p>
+          <p>メール：<a href="mailto:info@esp-academy.jp">info@esp-academy.jp</a></p>
         </div>
       </div>
     </section>
@@ -391,52 +320,20 @@
           <li><a href="#recruit">採用情報</a></li>
           <li><a href="#biz">事業内容</a></li>
         </ul>
-        <h4>SERVICES</h4>
-        <ul>
-          <li><a href="#biz">スクール事業</a></li>
-          <li><a href="#biz">イベント運営</a></li>
-        </ul>
       </div>
       <div class="footer-col sns">
-        <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" class="yt-link">
-          <img src="assets/youtube.svg" alt="YouTube" width="28" height="20"> eSP公式チャンネル
-        </a>
         <div class="footer-buttons">
-          <a href="#recruit" class="btn-entry">ENTRY</a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn-sns btn-x">X</a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn-sns btn-ig">Instagram</a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="btn-sns btn-fb">Facebook</a>
           <a href="#contact" class="btn-contact">CONTACT</a>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© <span id="y"></span> 株式会社eSP / eSPアカデミー</p>
+      <p>© <span id="y"></span> 株式会社eSP</p>
     </div>
   </footer>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "株式会社eSP",
-    "url": "https://www.example.com/",
-    "logo": "https://www.example.com/assets/eSP3.png",
-    "sameAs": [
-      "https://www.youtube.com/"
-    ],
-    "address": {
-      "@type": "PostalAddress",
-      "postalCode": "160-0023",
-      "addressRegion": "東京都",
-      "addressLocality": "新宿区西新宿",
-      "streetAddress": "3-9-7 フロンティア新宿タワーオフィス216"
-    },
-    "contactPoint": [{
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "email": "info@esp-academy.jp",
-      "availableLanguage": ["ja"]
-    }]
-  }
-  </script>
 
   <script>
     // 年号
@@ -445,14 +342,12 @@
     // ハンバーガーの開閉 & a11y（Escapeで閉じる・フォーカス制御）
     const btn = document.getElementById('menuBtn');
     const menu = document.getElementById('mobileMenu');
-    let lastFocus = null;
 
     const setMenu = (open) => {
       if (!menu) return;
       menu.hidden = !open;
       if (open) {
         menu.removeAttribute('inert');
-        lastFocus = document.activeElement;
         const firstLink = menu.querySelector('a');
         setTimeout(() => firstLink?.focus(), 0);
       } else {
