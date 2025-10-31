@@ -8,8 +8,6 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <title>株式会社eSP｜eSPアカデミー</title>
   <meta name="description" content="株式会社eSPは『楽しい。だから、成長する。』を理念に、eスポーツ×教育のスクール事業やイベント運営を展開しています。" />
-  <link rel="preload" as="image" href="assets/slide1.jpg" imagesrcset="assets/slide1.jpg">
-<link rel="preload" as="image" href="assets/slide2.jpg" imagesrcset="assets/slide2.jpg">
   <style>
     /* ==== Hero改良（暗転/？対策＋fallback） ==== */
 .hero{
@@ -132,16 +130,26 @@
 /* ←ここ重要：1枚目を常時表示する指定は入れない */
 /* .slide-img:nth-child(1){ opacity:1; } は書かない */
 
-/* アニメ指定（既存の keyframes をそのまま使う） */
-.slide-img:nth-child(1){ animation:fadeZoomIn 20s infinite ease-in-out 0s; }
-.slide-img:nth-child(2){ animation:fadeZoomOut 20s infinite ease-in-out 5s; }
-.slide-img:nth-child(3){ animation:fadeZoomIn 20s infinite ease-in-out 10s; }
-.slide-img:nth-child(4){ animation:fadeZoomOut 20s infinite ease-in-out 15s; }
+/* 4枚構成のスライドショーを完全ループさせる */
+.slide-img:nth-child(1){ animation:fadeZoomIn 24s infinite ease-in-out 0s; }
+.slide-img:nth-child(2){ animation:fadeZoomOut 24s infinite ease-in-out 6s; }
+.slide-img:nth-child(3){ animation:fadeZoomIn 24s infinite ease-in-out 12s; }
+.slide-img:nth-child(4){ animation:fadeZoomOut 24s infinite ease-in-out 18s; }
 
 /* テキストは最前面 */
 .hero-content{ position:relative; z-index:2; }
-    @keyframes fadeZoomIn{ 0%{opacity:0; transform:scale(1.06);} 5%{opacity:1; transform:scale(1.06);} 25%{opacity:1; transform:scale(1.12);} 30%{opacity:0; transform:scale(1.12);} 100%{opacity:0; transform:scale(1.12);} }
-    @keyframes fadeZoomOut{ 0%{opacity:0; transform:scale(1.12);} 5%{opacity:1; transform:scale(1.12);} 25%{opacity:1; transform:scale(1.04);} 30%{opacity:0; transform:scale(1.04);} 100%{opacity:0; transform:scale(1.04);} }
+    @keyframes fadeZoomIn {
+  0% { opacity: 0; transform: scale(1.06); }
+  5%, 25% { opacity: 1; transform: scale(1.08); }
+  30%, 100% { opacity: 0; transform: scale(1.12); }
+}
+
+@keyframes fadeZoomOut {
+  0% { opacity: 0; transform: scale(1.12); }
+  5%, 25% { opacity: 1; transform: scale(1.04); }
+  30%, 100% { opacity: 0; transform: scale(1.06); }
+}
+
     @media (prefers-reduced-motion: reduce){ .slide-img{ animation:none !important; opacity:0 !important; } .slide-img:nth-child(1){ opacity:1 !important; } }
 
     /* テキストは常に最前面 & アニメ対象外 */
@@ -487,5 +495,6 @@
   </script>
 </body>
 </html>
+
 
 
